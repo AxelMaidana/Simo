@@ -19,16 +19,35 @@ window.addEventListener(
 );
 
 // ===== Lenis smooth scroll, sincronizado con GSAP ScrollTrigger =====
+let lenis: Lenis | undefined;
 if (!reducedMotion) {
-  const lenis = new Lenis({
+  lenis = new Lenis({
     autoRaf: false,
   });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
+    lenis!.raf(time * 1000);
   });
   gsap.ticker.lagSmoothing(0);
 }
+
+// ===== Scroll animado al hacer click en enlaces internos (#ancla) =====
+document.addEventListener('click', (e) => {
+  const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
+  if (!link) return;
+  const href = link.getAttribute('href');
+  if (!href || href.length < 2) return;
+  const target = document.querySelector<HTMLElement>(href);
+  if (!target) return;
+
+  e.preventDefault();
+  if (lenis) {
+    lenis.scrollTo(target, { offset: -84, duration: 1.4, easing: (t: number) => 1 - Math.pow(1 - t, 4) });
+  } else {
+    target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+  history.pushState(null, '', href);
+});
 
 // ===== Animación de entrada del hero (escalonada) =====
 const introItems = gsap.utils.toArray<HTMLElement>('.intro-item');
