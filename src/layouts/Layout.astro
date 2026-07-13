@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import WhatsappFloat from '../components/WhatsappFloat.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'SIMO — Leasing de motos para trabajar. Sin bancos, con cuotas a tu medida.',
+  description = 'SIMO es el sistema de leasing de motos para trabajar. Accedé a tu herramienta de trabajo con cuotas accesibles, evaluación simple y transparencia total. Sin bancos.',
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c1b2e" />
+    <meta property="og:title" content="SIMO — Leasing de motos para trabajar" />
+    <meta property="og:description" content="Tu moto de trabajo, sin bancos y en cuotas que podés pagar. Evaluación simple y costos 100% transparentes." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/img/moto.webp" />
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/img/moto-800.webp" imagesrcset="/img/moto-800.webp 800w, /img/moto.webp 1500w" imagesizes="(max-width: 1024px) 92vw, 45vw" />
+  </head>
+  <body>
+    <slot />
+    <WhatsappFloat />
+    <script src="../scripts/main.ts"></script>
+  </body>
+</html>
