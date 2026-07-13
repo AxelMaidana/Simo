@@ -1,0 +1,61 @@
+<section class="section-dark calc" id="calculadora">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-dark">Simulador de ingresos</p>
+      <h2>¿Cuánto más podrías <strong>ganar por mes?</strong></h2>
+      <p class="section-sub">Ajustá los números a tu realidad de hoy y mirá lo que cambia con tu propia herramienta de trabajo.</p>
+    </div>
+
+    <div class="calc-box reveal">
+      <div class="calc-inputs">
+        <label class="calc-field">
+          <span>¿Cuántas visitas o entregas hacés por día hoy?</span>
+          <div class="calc-control">
+            <input type="range" id="visitasHoy" min="2" max="15" value="4" />
+            <output id="visitasHoyOut">4</output>
+          </div>
+        </label>
+        <label class="calc-field">
+          <span>¿Cuánto ganás aproximadamente por cada una? (ARS)</span>
+          <div class="calc-control">
+            <input type="range" id="gananciaUnit" min="300" max="5000" step="100" value="1200" />
+            <output id="gananciaUnitOut">$1.200</output>
+          </div>
+        </label>
+        <div class="calc-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.5"/></svg>
+          <p>Con tu propia moto podés hacer hasta <strong>2,5×</strong> más visitas por día.*</p>
+        </div>
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-row">
+          <span>Ganás hoy por mes</span>
+          <strong id="resHoy">$115.200</strong>
+        </div>
+        <div class="calc-row highlight">
+          <span>Podrías ganar con SIMO</span>
+          <strong id="resSimo">$288.000</strong>
+        </div>
+        <div class="calc-extra">
+          <span>Diferencia a tu favor</span>
+          <strong id="resExtra">+$172.800</strong>
+          <span>por mes</span>
+        </div>
+        <form class="calc-form" id="calcForm">
+          <input type="text" id="leadNombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
+          <input type="email" id="leadEmail" name="email" placeholder="Tu email" required autocomplete="email" />
+          <button type="submit" class="btn btn-lg" id="calcCta">Recibir mi plan personalizado
+            <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
+          </button>
+          <p class="calc-form-hint">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Tus datos están protegidos. Sin compromiso y sin spam.
+          </p>
+        </form>
+        <p class="calc-success" id="calcSuccess" hidden></p>
+      </div>
+    </div>
+    <p class="calc-disclaimer">* Estimación orientativa sobre 24 días laborables por mes. Los resultados reales dependen de tu rubro y tu zona.</p>
+  </div>
+</section>
