@@ -1,6 +1,7 @@
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import emailjs from '@emailjs/browser';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -256,7 +257,12 @@ if (visitas && ganancia) {
   calcular();
 }
 
-// ===== Formulario de captura de la calculadora =====
+// ===== Formulario de captura de la calculadora (envía por EmailJS) =====
+const EMAILJS_SERVICE_ID = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
+if (EMAILJS_PUBLIC_KEY) emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
 const calcForm = document.getElementById('calcForm') as HTMLFormElement | null;
 const calcSuccess = document.getElementById('calcSuccess') as HTMLElement | null;
 if (calcForm) {
@@ -264,15 +270,35 @@ if (calcForm) {
     e.preventDefault();
     const nombreInput = document.getElementById('leadNombre') as HTMLInputElement;
     const emailInput = document.getElementById('leadEmail') as HTMLInputElement;
+    const dedicacionInput = document.getElementById('leadDedicacion') as HTMLSelectElement;
+    const ingresosInput = document.getElementById('leadIngresos') as HTMLInputElement;
+    const localidadInput = document.getElementById('leadLocalidad') as HTMLInputElement;
+    const productoInput = document.getElementById('leadProducto') as HTMLInputElement;
+
     const nombre = nombreInput.value.trim();
     const email = emailInput.value.trim();
+    const dedicacion = dedicacionInput.value.trim();
+    const ingresos = ingresosInput.value.trim();
+    const localidad = localidadInput.value.trim();
+    const producto = productoInput.value.trim();
+
     const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!nombre || !emailOk) {
-      alert('Completá tu nombre y un email válido.');
+    if (!nombre || !emailOk || !dedicacion || !ingresos || !localidad || !producto) {
+      alert('Completá todos los campos con un email válido.');
       return;
     }
 
-    const lead = { nombre, email, visitas: ultimasVisitas, extra: ultimoExtra, fecha: new Date().toISOString() };
+    const lead = {
+      nombre,
+      email,
+      dedicacion,
+      ingresos,
+      localidad,
+      producto,
+      visitas: ultimasVisitas,
+      extra: ultimoExtra,
+      fecha: new Date().toISOString(),
+    };
     try {
       const leads = JSON.parse(localStorage.getItem('simo_leads') || '[]');
       leads.push(lead);
@@ -281,11 +307,54 @@ if (calcForm) {
       /* no-op */
     }
 
-    calcForm.hidden = true;
-    if (calcSuccess) {
-      calcSuccess.hidden = false;
-      calcSuccess.textContent = `¡Gracias, ${nombre}! Te escribimos a ${email} con un plan a tu medida.`;
+    const submitBtn = document.getElementById('calcCta') as HTMLButtonElement | null;
+    const originalBtnHtml = submitBtn?.innerHTML ?? '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
     }
+
+    const templateParams = {
+      nombre,
+      email,
+      dedicacion,
+      ingresos,
+      localidad,
+      producto,
+      visitas_dia: String(ultimasVisitas),
+      ganancia_actual: resHoy?.textContent || '',
+      ganancia_simo: resSimo?.textContent || '',
+      diferencia: resExtra?.textContent || '',
+      fecha: new Date().toLocaleString('es-AR', { dateStyle: 'long', timeStyle: 'short' }),
+    };
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      console.error('Faltan las variables de entorno de EmailJS (PUBLIC_EMAILJS_*).');
+      alert('El formulario no está configurado todavía. Probá de nuevo más tarde.');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+      return;
+    }
+
+    emailjs
+      .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+      .then(() => {
+        calcForm.hidden = true;
+        if (calcSuccess) {
+          calcSuccess.hidden = false;
+          calcSuccess.textContent = `¡Gracias, ${nombre}! Te escribimos a ${email} con un plan a tu medida.`;
+        }
+      })
+      .catch((err) => {
+        console.error('EmailJS error:', err);
+        alert('No pudimos enviar tu solicitud. Probá de nuevo en unos segundos.');
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+      });
   });
 }
 

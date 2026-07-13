@@ -45,6 +45,19 @@
         <form class="calc-form" id="calcForm">
           <input type="text" id="leadNombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
           <input type="email" id="leadEmail" name="email" placeholder="Tu email" required autocomplete="email" />
+          <select id="leadDedicacion" name="dedicacion" required>
+            <option value="" disabled selected>¿A qué te dedicás?</option>
+            <option value="Delivery y reparto">Delivery y reparto</option>
+            <option value="Técnico a domicilio">Técnico a domicilio</option>
+            <option value="Comerciante">Comerciante</option>
+            <option value="Emprendedor">Emprendedor</option>
+            <option value="Profesional independiente">Profesional independiente</option>
+            <option value="Mensajería">Mensajería</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <input type="text" id="leadIngresos" name="ingresos" placeholder="Ingresos mensuales aproximados (ARS)" required inputmode="numeric" />
+          <input type="text" id="leadLocalidad" name="localidad" placeholder="Tu localidad" required autocomplete="address-level2" />
+          <input type="text" id="leadProducto" name="producto" placeholder="¿Qué producto buscás? (ej: moto 110cc, eléctrica...)" required />
           <button type="submit" class="btn btn-lg" id="calcCta">Recibir mi plan personalizado
             <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
           </button>

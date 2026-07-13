@@ -1,0 +1,142 @@
+<!--
+  Template de EmailJS para el simulador de SIMO.
+  Cómo usarlo:
+  1. Entrá a https://dashboard.emailjs.com/admin/templates y abrí template_z3z3v99.
+  2. En la pestaña "Content", pasá al modo "Code editor" (ícono </>) y pegá todo este HTML.
+  3. En "Settings" del template, poné:
+       To email:   axsldev@gmail.com
+       From name:  SIMO — Simulador web
+       Subject:    🏍️ Nuevo lead: {{nombre}}
+  4. Guardá los cambios.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f8fa; padding:32px 16px; font-family:'DM Sans', Arial, Helvetica, sans-serif;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%; background:#ffffff; border-radius:20px; overflow:hidden; box-shadow:0 14px 40px -18px rgba(12,27,46,0.22);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:#081320; padding:32px 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="font-family:'Space Grotesk', Arial, sans-serif; font-size:22px; font-weight:700; color:#ffffff; letter-spacing:-0.02em;">
+                  SIM<span style="color:#1fc9b8;">O</span>
+                </td>
+                <td align="right" style="font-size:12px; color:#9fb3c5; letter-spacing:0.08em; text-transform:uppercase;">
+                  Sistema Integral de Movilidad
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Banda de acento -->
+        <tr>
+          <td style="height:4px; background:linear-gradient(90deg,#1fc9b8,#0d9c8d);"></td>
+        </tr>
+
+        <!-- Título -->
+        <tr>
+          <td style="padding:36px 40px 8px;">
+            <p style="margin:0; font-family:'Space Grotesk', Arial, sans-serif; font-size:13px; font-weight:700; color:#0d9c8d; text-transform:uppercase; letter-spacing:0.14em;">
+              Nuevo lead del simulador
+            </p>
+            <h1 style="margin:8px 0 0; font-family:'Space Grotesk', Arial, sans-serif; font-size:26px; font-weight:700; color:#0c1b2e; letter-spacing:-0.02em;">
+              {{nombre}} quiere su plan a medida
+            </h1>
+            <p style="margin:10px 0 0; font-size:15px; line-height:1.6; color:#4c6172;">
+              Alguien completó el simulador de ingresos en la web y dejó sus datos para recibir asesoramiento. Estos son los detalles:
+            </p>
+          </td>
+        </tr>
+
+        <!-- Datos de contacto -->
+        <tr>
+          <td style="padding:24px 40px 8px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e2ebf0; border-radius:14px; overflow:hidden;">
+              <tr>
+                <td style="padding:14px 18px; width:38%; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172; border-bottom:1px solid #e2ebf0;">Nombre</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e; border-bottom:1px solid #e2ebf0;">{{nombre}}</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172; border-bottom:1px solid #e2ebf0;">Email</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e; border-bottom:1px solid #e2ebf0;">
+                  <a href="mailto:{{email}}" style="color:#0d9c8d; text-decoration:none;">{{email}}</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172; border-bottom:1px solid #e2ebf0;">A qué se dedica</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e; border-bottom:1px solid #e2ebf0;">{{dedicacion}}</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172; border-bottom:1px solid #e2ebf0;">Localidad</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e; border-bottom:1px solid #e2ebf0;">{{localidad}}</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172; border-bottom:1px solid #e2ebf0;">Ingresos mensuales</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e; border-bottom:1px solid #e2ebf0;">{{ingresos}}</td>
+              </tr>
+              <tr>
+                <td style="padding:14px 18px; background:#f4f8fa; font-size:13px; font-weight:600; color:#4c6172;">Producto que busca</td>
+                <td style="padding:14px 18px; font-size:14px; color:#0c1b2e;">{{producto}}</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Resultado del simulador -->
+        <tr>
+          <td style="padding:24px 40px 8px;">
+            <p style="margin:0 0 12px; font-family:'Space Grotesk', Arial, sans-serif; font-size:13px; font-weight:700; color:#0c1b2e; text-transform:uppercase; letter-spacing:0.1em;">
+              Resultado del simulador
+            </p>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#081320; border-radius:16px;">
+              <tr>
+                <td style="padding:22px 24px 6px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="font-size:13px; color:#9fb3c5; padding-bottom:14px;">Visitas o entregas por día hoy</td>
+                      <td align="right" style="font-size:14px; font-weight:700; color:#ffffff; padding-bottom:14px;">{{visitas_dia}}</td>
+                    </tr>
+                    <tr>
+                      <td style="font-size:13px; color:#9fb3c5; padding-bottom:14px; border-top:1px solid rgba(255,255,255,0.08); padding-top:14px;">Gana hoy por mes</td>
+                      <td align="right" style="font-size:14px; font-weight:700; color:#ffffff; padding-bottom:14px; border-top:1px solid rgba(255,255,255,0.08); padding-top:14px;">{{ganancia_actual}}</td>
+                    </tr>
+                    <tr>
+                      <td style="font-size:13px; color:#9fb3c5; padding-bottom:14px; border-top:1px solid rgba(255,255,255,0.08); padding-top:14px;">Podría ganar con SIMO</td>
+                      <td align="right" style="font-size:14px; font-weight:700; color:#1fc9b8; padding-bottom:14px; border-top:1px solid rgba(255,255,255,0.08); padding-top:14px;">{{ganancia_simo}}</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td align="center" style="padding:4px 24px 22px;">
+                  <p style="margin:0; font-size:12px; color:#9fb3c5;">Diferencia a favor por mes</p>
+                  <p style="margin:4px 0 0; font-family:'Space Grotesk', Arial, sans-serif; font-size:28px; font-weight:700; color:#1fc9b8;">{{diferencia}}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- CTA -->
+        <tr>
+          <td style="padding:28px 40px 8px;" align="center">
+            <a href="mailto:{{email}}" style="display:inline-block; background:#1fc9b8; color:#081320; font-family:'Space Grotesk', Arial, sans-serif; font-weight:700; font-size:15px; text-decoration:none; padding:14px 32px; border-radius:999px;">
+              Responder a {{nombre}}
+            </a>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:28px 40px 32px;">
+            <p style="margin:0; font-size:12px; color:#9fb3c5; text-align:center;">
+              Enviado el {{fecha}} desde el simulador de ingresos en simo-leasing.com.ar
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
