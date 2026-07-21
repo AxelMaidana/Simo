@@ -20,17 +20,12 @@ window.addEventListener(
 );
 
 // ===== Lenis smooth scroll, sincronizado con GSAP ScrollTrigger =====
-let lenis: Lenis | undefined;
-if (!reducedMotion) {
-  lenis = new Lenis({
-    autoRaf: false,
-  });
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis!.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
-}
+const lenis = new Lenis();
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+gsap.ticker.lagSmoothing(0);
 
 // ===== Scroll animado al hacer click en enlaces internos (#ancla) =====
 document.addEventListener('click', (e) => {
@@ -42,11 +37,7 @@ document.addEventListener('click', (e) => {
   if (!target) return;
 
   e.preventDefault();
-  if (lenis) {
-    lenis.scrollTo(target, { offset: -84, duration: 1.4, easing: (t: number) => 1 - Math.pow(1 - t, 4) });
-  } else {
-    target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
-  }
+  lenis.scrollTo(target, { offset: -84, duration: 1.2 });
   history.pushState(null, '', href);
 });
 
@@ -144,27 +135,15 @@ if (stepsEl) {
 
 // ===== Marquee infinito (GSAP) =====
 const marqueeTrack = document.getElementById('marqueeTrack');
-if (marqueeTrack && !reducedMotion) {
+if (marqueeTrack) {
   const marqueeTween = gsap.to(marqueeTrack, {
     xPercent: -50,
     repeat: -1,
-    duration: 30,
-    ease: 'linear',
+    duration: 25,
+    ease: 'none',
   });
-  const marqueeSection = marqueeTrack.closest('.marquee');
   marqueeTrack.addEventListener('mouseenter', () => marqueeTween.pause());
   marqueeTrack.addEventListener('mouseleave', () => marqueeTween.play());
-  if (marqueeSection) {
-    ScrollTrigger.create({
-      trigger: marqueeSection,
-      start: 'top bottom',
-      end: 'bottom top',
-      onToggle: (self) => {
-        if (self.isActive) marqueeTween.play();
-        else marqueeTween.pause();
-      },
-    });
-  }
 }
 
 // ===== Pausar animaciones CSS del hero cuando no se ven =====
