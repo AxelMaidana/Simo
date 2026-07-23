@@ -9,27 +9,63 @@ interface Props {
 
 const {
   title = 'SIMO — Leasing de motos para trabajar. Sin bancos, con cuotas a tu medida.',
-  description = 'SIMO es el sistema de leasing de motos para trabajar. Accedé a tu herramienta de trabajo con cuotas accesibles, evaluación simple y transparencia total. Sin bancos.',
+  description = 'SIMO es el sistema de leasing de motos para trabajar en Argentina. Accedé a tu herramienta de trabajo con cuotas accesibles, evaluación simple y transparencia total. Sin bancos.',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL('/img/moto.webp', Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FinancialService',
+  name: 'SIMO — Sistema Integral de Movilidad',
+  description,
+  url: 'https://simoargentina.com',
+  logo: new URL('/img/logo-simo-navy.svg', Astro.site).toString(),
+  image: ogImageURL.toString(),
+  areaServed: {
+    '@type': 'Country',
+    name: 'Argentina',
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressCountry: 'AR',
+  },
+  sameAs: [],
+};
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0c1b2e" />
-    <meta property="og:title" content="SIMO — Leasing de motos para trabajar" />
-    <meta property="og:description" content="Tu moto de trabajo, sin bancos y en cuotas que podés pagar. Evaluación simple y costos 100% transparentes." />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/img/moto.webp" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="SIMO" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
     <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="preload" as="image" href="/img/moto-800.webp" imagesrcset="/img/moto-800.webp 800w, /img/moto.webp 1500w" imagesizes="(max-width: 1024px) 92vw, 45vw" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <slot />
