@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TopBar from '../components/TopBar.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/u/0/d/e/1FAIpQLSe96FB0Q9PIkkIGe0X6Ce2ATL8p2d0KbWxt1ZPTUBzqM6Qa4w/formResponse';
+---
+
+<Layout title="Solicitud de leasing — SIMO" description="Completá tu solicitud de leasing de motos con SIMO.">
+  <TopBar />
+  <Nav />
+
+  <section class="section-dark calc" id="formulario-section">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <p class="eyebrow eyebrow-dark">Solicitud</p>
+        <h2>Completá tu <strong>solicitud</strong></h2>
+        <p class="section-sub">Dejanos tus datos y nuestro equipo te contacta en menos de 48 h.</p>
+      </div>
+
+      <div class="calc-box calc-box-single reveal">
+        <div class="calc-result" id="planSummary" hidden>
+          <div class="calc-row">
+            <span>Integración elegida (x3)</span>
+            <strong id="summaryIntegracion">—</strong>
+          </div>
+          <div class="calc-row highlight">
+            <span>Cuotas semanales</span>
+            <strong id="summaryCuotas">—</strong>
+          </div>
+          <div class="calc-extra">
+            <span>Cuota semanal estimada</span>
+            <strong id="summaryCuotaSemanal">—</strong>
+          </div>
+        </div>
+
+        <form
+          class="calc-form"
+          id="leadForm"
+          action={GOOGLE_FORM_ACTION}
+          method="POST"
+          target="hidden_iframe"
+        >
+          <input type="text" name="entry.671640965" placeholder="Nombre y apellido" required autocomplete="name" />
+          <input type="email" name="entry.50744535" placeholder="Tu email" required autocomplete="email" />
+
+          <select name="entry.1169236772" required>
+            <option value="" disabled selected>¿A qué te dedicás?</option>
+            <option value="Delivery y reparto">Delivery y reparto</option>
+            <option value="Técnico a domicilio">Técnico a domicilio</option>
+            <option value="Comerciante">Comerciante</option>
+            <option value="Emprendedor">Emprendedor</option>
+            <option value="Profesional independiente">Profesional independiente</option>
+            <option value="Empleado público o privado">Empleado público o privado</option>
+            <option value="Otro">Otro</option>
+          </select>
+
+          <input type="text" name="entry.1142098624" placeholder="Tu localidad" required autocomplete="address-level2" />
+
+          <select name="entry.1241461408" required>
+            <option value="" disabled selected>Tu provincia</option>
+            <option value="Chaco">Chaco</option>
+            <option value="Corrientes">Corrientes</option>
+            <option value="Formosa">Formosa</option>
+            <option value="Misiones">Misiones</option>
+            <option value="Otra">Otra</option>
+          </select>
+
+          <input type="text" name="entry.681900591" placeholder="Ingresos mensuales aproximados (ARS)" required inputmode="numeric" />
+          <input type="text" name="entry.670293137" placeholder="¿Qué producto buscás? (ej: moto 110cc, eléctrica...)" required />
+
+          <input type="hidden" name="entry.318947418" id="hiddenIntegracion" value="" />
+          <input type="hidden" name="entry.1443379784" id="hiddenCuotas" value="" />
+          <input type="hidden" name="entry.1496890500" id="hiddenCuotaSemanal" value="" />
+          <input type="hidden" name="entry.1621411405" id="hiddenProrrateo" value="" />
+
+          <button type="submit" class="btn btn-lg" id="leadFormBtn">Enviar solicitud
+            <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
+          </button>
+          <p class="calc-form-hint">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            Tus datos están protegidos. Sin compromiso y sin spam.
+          </p>
+        </form>
+        <p class="calc-success" id="formSuccess" hidden>¡Gracias! Recibimos tu solicitud y te vamos a contactar en menos de 48 h.</p>
+      </div>
+    </div>
+  </section>
+
+  <iframe name="hidden_iframe" id="hiddenIframe" title="envío de formulario" style="display:none"></iframe>
+
+  <Footer />
+</Layout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const integracion = params.get('integracion');
+  const cuotas = params.get('cuotas');
+  const cuotaSemanal = params.get('cuotaSemanal');
+  const prorrateo = params.get('prorrateo');
+
+  const pesos = (n: string) => '$' + Math.round(Number(n)).toLocaleString('es-AR');
+
+  if (integracion && cuotas && cuotaSemanal) {
+    const planSummary = document.getElementById('planSummary');
+    const summaryIntegracion = document.getElementById('summaryIntegracion');
+    const summaryCuotas = document.getElementById('summaryCuotas');
+    const summaryCuotaSemanal = document.getElementById('summaryCuotaSemanal');
+
+    if (planSummary) planSummary.hidden = false;
+    if (summaryIntegracion) summaryIntegracion.textContent = pesos((Number(integracion) * 3).toString());
+    if (summaryCuotas) summaryCuotas.textContent = `${cuotas} cuotas`;
+    if (summaryCuotaSemanal) summaryCuotaSemanal.textContent = pesos(cuotaSemanal);
+
+    const hiddenIntegracion = document.getElementById('hiddenIntegracion') as HTMLInputElement | null;
+    const hiddenCuotas = document.getElementById('hiddenCuotas') as HTMLInputElement | null;
+    const hiddenCuotaSemanal = document.getElementById('hiddenCuotaSemanal') as HTMLInputElement | null;
+    const hiddenProrrateo = document.getElementById('hiddenProrrateo') as HTMLInputElement | null;
+
+    if (hiddenIntegracion) hiddenIntegracion.value = pesos(integracion);
+    if (hiddenCuotas) hiddenCuotas.value = cuotas;
+    if (hiddenCuotaSemanal) hiddenCuotaSemanal.value = pesos(cuotaSemanal);
+    if (hiddenProrrateo) hiddenProrrateo.value = prorrateo === 'si' ? 'Sí' : 'No';
+  }
+
+  const leadForm = document.getElementById('leadForm') as HTMLFormElement | null;
+  const leadFormBtn = document.getElementById('leadFormBtn') as HTMLButtonElement | null;
+  const formSuccess = document.getElementById('formSuccess');
+  const hiddenIframe = document.getElementById('hiddenIframe') as HTMLIFrameElement | null;
+
+  if (leadForm && hiddenIframe) {
+    let submitted = false;
+    leadForm.addEventListener('submit', () => {
+      if (leadFormBtn) {
+        leadFormBtn.disabled = true;
+        leadFormBtn.textContent = 'Enviando...';
+      }
+      submitted = true;
+    });
+
+    hiddenIframe.addEventListener('load', () => {
+      if (!submitted) return;
+      leadForm.hidden = true;
+      if (formSuccess) formSuccess.hidden = false;
+    });
+  }
+</script>

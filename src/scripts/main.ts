@@ -375,3 +375,63 @@ document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((item) => {
     }
   });
 });
+
+// ===== Plan de pago (integraciones + cuotas) =====
+const PRECIO_REFERENCIA = 2500000;
+
+const integracion1Input = document.getElementById('integracion1') as HTMLInputElement | null;
+const integracion1Out = document.getElementById('integracion1Out');
+const integracion2Out = document.getElementById('integracion2Out');
+const integracion3Out = document.getElementById('integracion3Out');
+const cuotasControl = document.getElementById('cuotasControl');
+const prorratearInput = document.getElementById('prorratear') as HTMLInputElement | null;
+const precioRefEl = document.getElementById('precioRef');
+const integracionUnicaEl = document.getElementById('integracionUnica');
+const cuotaSemanalEl = document.getElementById('cuotaSemanal');
+const cuotaSemanalCantEl = document.getElementById('cuotaSemanalCant');
+const planCta = document.getElementById('planCta') as HTMLAnchorElement | null;
+
+if (integracion1Input && cuotasControl && precioRefEl && integracionUnicaEl && cuotaSemanalEl) {
+  let cuotasSeleccionadas = 9;
+
+  const calcularPlan = () => {
+    const integracion1 = parseInt(integracion1Input.value, 10);
+    const integracionUnica = integracion1 * 3;
+    const montoAFinanciar = prorratearInput?.checked ? PRECIO_REFERENCIA : PRECIO_REFERENCIA - integracionUnica;
+    const cuotaSemanal = montoAFinanciar / cuotasSeleccionadas;
+
+    if (integracion1Out) integracion1Out.textContent = pesos(integracion1);
+    if (integracion2Out) integracion2Out.textContent = pesos(integracion1);
+    if (integracion3Out) integracion3Out.textContent = pesos(integracion1);
+    precioRefEl.textContent = pesos(PRECIO_REFERENCIA);
+    integracionUnicaEl.textContent = pesos(integracionUnica);
+    cuotaSemanalEl.textContent = pesos(cuotaSemanal);
+    if (cuotaSemanalCantEl) cuotaSemanalCantEl.textContent = `durante ${cuotasSeleccionadas} semanas`;
+
+    pintarSlider(integracion1Input);
+
+    if (planCta) {
+      const params = new URLSearchParams({
+        integracion: String(integracion1),
+        cuotas: String(cuotasSeleccionadas),
+        cuotaSemanal: String(Math.round(cuotaSemanal)),
+        prorrateo: prorratearInput?.checked ? 'si' : 'no',
+      });
+      planCta.href = `/formulario?${params.toString()}`;
+    }
+  };
+
+  integracion1Input.addEventListener('input', calcularPlan);
+  prorratearInput?.addEventListener('change', calcularPlan);
+
+  cuotasControl.querySelectorAll<HTMLButtonElement>('.cuota-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      cuotasControl.querySelectorAll('.cuota-btn').forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      cuotasSeleccionadas = parseInt(btn.dataset.cuotas || '9', 10);
+      calcularPlan();
+    });
+  });
+
+  calcularPlan();
+}

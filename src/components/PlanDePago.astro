@@ -1,0 +1,64 @@
+<section class="section-dark calc" id="plandepago">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <p class="eyebrow eyebrow-dark">Financiamiento</p>
+      <h2>Elegir <strong>plan de pago</strong></h2>
+      <p class="section-sub">Definí tu integración inicial y elegí en cuántas cuotas semanales pagás el resto.</p>
+    </div>
+
+    <div class="calc-box reveal">
+      <div class="calc-inputs">
+        <label class="calc-field">
+          <span>Integración 1</span>
+          <div class="calc-control">
+            <input type="range" id="integracion1" min="50000" max="300000" step="10000" value="100000" />
+            <output id="integracion1Out">$100.000</output>
+          </div>
+        </label>
+
+        <div class="calc-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.5"/></svg>
+          <p>Integración 2 y 3 se completan solas con el mismo valor: <strong id="integracion2Out">$100.000</strong> y <strong id="integracion3Out">$100.000</strong>.</p>
+        </div>
+
+        <label class="calc-field">
+          <span>¿En cuántas cuotas semanales pagás el resto?</span>
+          <div class="cuotas-control" id="cuotasControl" role="group" aria-label="Cantidad de cuotas">
+            <button type="button" class="cuota-btn" data-cuotas="6">6 cuotas</button>
+            <button type="button" class="cuota-btn is-active" data-cuotas="9">9 cuotas</button>
+            <button type="button" class="cuota-btn" data-cuotas="12">12 cuotas</button>
+          </div>
+        </label>
+
+        <label class="calc-checkbox">
+          <input type="checkbox" id="prorratear" />
+          <span>Prorratear la integración en las cuotas (sin pago inicial por adelantado)</span>
+        </label>
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-row">
+          <span>Precio de referencia</span>
+          <strong id="precioRef">$2.500.000</strong>
+        </div>
+        <div class="calc-row highlight">
+          <span>Integración única (1 + 2 + 3)</span>
+          <strong id="integracionUnica">$300.000</strong>
+        </div>
+        <div class="calc-extra">
+          <span>Cuota semanal estimada</span>
+          <strong id="cuotaSemanal">$244.444</strong>
+          <span id="cuotaSemanalCant">durante 9 semanas</span>
+        </div>
+        <p class="calc-form-hint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Sujeto a aprobación.
+        </p>
+        <a href="/formulario" class="btn btn-lg" id="planCta">Continuar con mi plan
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <p class="calc-disclaimer">* Precio de referencia estimado para una moto de trabajo estándar. El monto final puede variar según el modelo elegido y la evaluación de tu solicitud.</p>
+  </div>
+</section>
