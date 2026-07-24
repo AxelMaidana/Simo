@@ -283,6 +283,7 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   border-radius: 24px; padding: clamp(1.6rem, 3.5vw, 2.6rem);
   box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.55);
 }
+.calc-box-single { grid-template-columns: 1fr; max-width: 560px; }
 .calc-inputs { display: flex; flex-direction: column; gap: 1.9rem; }
 .calc-field { display: flex; flex-direction: column; gap: 0.85rem; }
 .calc-field > span { font-weight: 500; color: #e8f1f6; }
@@ -361,12 +362,31 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 }
 .calc-disclaimer { text-align: center; color: var(--color-gray-dark); font-size: 0.8rem; margin-top: 1.4rem; opacity: 0.85; }
 
+/* ===== Plan de pago ===== */
+.cuotas-control { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.cuota-btn {
+  flex: 1; min-width: 90px; background: var(--color-navy-card); border: 1px solid var(--line-dark);
+  border-radius: 12px; padding: 0.7rem 0.5rem; color: var(--color-gray-dark);
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.cuota-btn:hover { border-color: rgba(31, 201, 184, 0.5); }
+.cuota-btn.is-active { background: var(--color-teal); border-color: var(--color-teal); color: var(--color-navy-deep); }
+.calc-checkbox {
+  display: flex; align-items: flex-start; gap: 0.7rem; cursor: pointer;
+  color: var(--color-gray-dark); font-size: 0.92rem; line-height: 1.4;
+}
+.calc-checkbox input { flex: none; width: 18px; height: 18px; margin-top: 0.15rem; accent-color: var(--color-teal); cursor: pointer; }
+.calc-result .btn { width: 100%; margin-top: 0.2rem; }
+
 /* ===== Cómo funciona (timeline) ===== */
 .steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
+.steps-5 { grid-template-columns: repeat(5, 1fr); }
 .steps-line {
   position: absolute; top: 24px; left: calc(12.5% ); right: calc(12.5%);
   height: 2px; background: var(--color-line); border-radius: 2px; z-index: 0;
 }
+.steps-5 .steps-line { left: calc(10%); right: calc(10%); }
 .steps-line-fill {
   display: block; height: 100%; width: 100%;
   background: linear-gradient(90deg, var(--color-teal), var(--color-teal-dark));
