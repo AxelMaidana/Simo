@@ -23,16 +23,21 @@ const GOOGLE_FORM_ACTION =
       <div class="calc-box calc-box-single reveal">
         <div class="calc-result" id="planSummary" hidden>
           <div class="calc-row">
-            <span>Integración elegida (x3)</span>
-            <strong id="summaryIntegracion">—</strong>
+            <span>Plan elegido</span>
+            <strong id="summaryPlan">—</strong>
           </div>
           <div class="calc-row highlight">
-            <span>Cuotas semanales</span>
-            <strong id="summaryCuotas">—</strong>
+            <span>Anticipo (3 pagos)</span>
+            <strong id="summaryAnticipo">—</strong>
           </div>
           <div class="calc-extra">
             <span>Cuota semanal estimada</span>
             <strong id="summaryCuotaSemanal">—</strong>
+            <span id="summaryMeses">durante 12 meses</span>
+          </div>
+          <div class="calc-row calc-row-sub">
+            <span>Equivale a por mes</span>
+            <strong id="summaryCuotaMensual">—</strong>
           </div>
         </div>
 
@@ -71,10 +76,10 @@ const GOOGLE_FORM_ACTION =
           <input type="text" name="entry.681900591" placeholder="Ingresos mensuales aproximados (ARS)" required inputmode="numeric" />
           <input type="text" name="entry.670293137" placeholder="¿Qué producto buscás? (ej: moto 110cc, eléctrica...)" required />
 
-          <input type="hidden" name="entry.318947418" id="hiddenIntegracion" value="" />
-          <input type="hidden" name="entry.1443379784" id="hiddenCuotas" value="" />
-          <input type="hidden" name="entry.1496890500" id="hiddenCuotaSemanal" value="" />
-          <input type="hidden" name="entry.1621411405" id="hiddenProrrateo" value="" />
+          <input type="hidden" name="entry.318947418" id="hiddenAnticipo" value="" />
+          <input type="hidden" name="entry.1443379784" id="hiddenMeses" value="" />
+          <input type="hidden" name="entry.1496890500" id="hiddenCuotaMensual" value="" />
+          <input type="hidden" name="entry.1621411405" id="hiddenPlan" value="" />
 
           <button type="submit" class="btn btn-lg" id="leadFormBtn">Enviar solicitud
             <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
@@ -96,33 +101,40 @@ const GOOGLE_FORM_ACTION =
 
 <script>
   const params = new URLSearchParams(window.location.search);
-  const integracion = params.get('integracion');
-  const cuotas = params.get('cuotas');
+  const plan = params.get('plan');
+  const anticipo = params.get('anticipo');
+  const meses = params.get('meses');
+  const cuotaMensual = params.get('cuotaMensual');
   const cuotaSemanal = params.get('cuotaSemanal');
-  const prorrateo = params.get('prorrateo');
 
   const pesos = (n: string) => '$' + Math.round(Number(n)).toLocaleString('es-AR');
 
-  if (integracion && cuotas && cuotaSemanal) {
+  if (plan && anticipo && meses && cuotaMensual && cuotaSemanal) {
     const planSummary = document.getElementById('planSummary');
-    const summaryIntegracion = document.getElementById('summaryIntegracion');
-    const summaryCuotas = document.getElementById('summaryCuotas');
+    const summaryPlan = document.getElementById('summaryPlan');
+    const summaryAnticipo = document.getElementById('summaryAnticipo');
     const summaryCuotaSemanal = document.getElementById('summaryCuotaSemanal');
+    const summaryCuotaMensual = document.getElementById('summaryCuotaMensual');
+    const summaryMeses = document.getElementById('summaryMeses');
 
     if (planSummary) planSummary.hidden = false;
-    if (summaryIntegracion) summaryIntegracion.textContent = pesos((Number(integracion) * 3).toString());
-    if (summaryCuotas) summaryCuotas.textContent = `${cuotas} cuotas`;
+    if (summaryPlan) summaryPlan.textContent = plan;
+    if (summaryAnticipo) summaryAnticipo.textContent = pesos(anticipo);
     if (summaryCuotaSemanal) summaryCuotaSemanal.textContent = pesos(cuotaSemanal);
+    if (summaryCuotaMensual) summaryCuotaMensual.textContent = pesos(cuotaMensual);
+    if (summaryMeses) summaryMeses.textContent = `durante ${meses} meses`;
 
-    const hiddenIntegracion = document.getElementById('hiddenIntegracion') as HTMLInputElement | null;
-    const hiddenCuotas = document.getElementById('hiddenCuotas') as HTMLInputElement | null;
-    const hiddenCuotaSemanal = document.getElementById('hiddenCuotaSemanal') as HTMLInputElement | null;
-    const hiddenProrrateo = document.getElementById('hiddenProrrateo') as HTMLInputElement | null;
+    const hiddenAnticipo = document.getElementById('hiddenAnticipo') as HTMLInputElement | null;
+    const hiddenMeses = document.getElementById('hiddenMeses') as HTMLInputElement | null;
+    const hiddenCuotaMensual = document.getElementById('hiddenCuotaMensual') as HTMLInputElement | null;
+    const hiddenPlan = document.getElementById('hiddenPlan') as HTMLInputElement | null;
 
-    if (hiddenIntegracion) hiddenIntegracion.value = pesos(integracion);
-    if (hiddenCuotas) hiddenCuotas.value = cuotas;
-    if (hiddenCuotaSemanal) hiddenCuotaSemanal.value = pesos(cuotaSemanal);
-    if (hiddenProrrateo) hiddenProrrateo.value = prorrateo === 'si' ? 'Sí' : 'No';
+    if (hiddenAnticipo) hiddenAnticipo.value = pesos(anticipo);
+    if (hiddenMeses) hiddenMeses.value = meses;
+    if (hiddenCuotaMensual) {
+      hiddenCuotaMensual.value = `${pesos(cuotaSemanal)} (equivale a ${pesos(cuotaMensual)} por mes)`;
+    }
+    if (hiddenPlan) hiddenPlan.value = plan;
   }
 
   const leadForm = document.getElementById('leadForm') as HTMLFormElement | null;

@@ -1,9 +1,9 @@
 <section class="section-dark calc" id="calculadora">
   <div class="section-inner">
     <div class="section-head reveal">
-      <p class="eyebrow eyebrow-dark">Simulador de ingresos</p>
+      <p class="eyebrow eyebrow-dark">Simulador y plan de pago</p>
       <h2>¿Cuánto más podrías <strong>ganar por mes?</strong></h2>
-      <p class="section-sub">Ajustá los números a tu realidad de hoy y mirá lo que cambia con tu propia herramienta de trabajo.</p>
+      <p class="section-sub">Ajustá los números a tu realidad de hoy y elegí el plan de pago que mejor se adapte a vos.</p>
     </div>
 
     <div class="calc-box reveal">
@@ -42,33 +42,69 @@
           <strong id="resExtra">+$172.800</strong>
           <span>por mes</span>
         </div>
-        <form class="calc-form" id="calcForm">
-          <input type="text" id="leadNombre" name="nombre" placeholder="Tu nombre" required autocomplete="name" />
-          <input type="email" id="leadEmail" name="email" placeholder="Tu email" required autocomplete="email" />
-          <select id="leadDedicacion" name="dedicacion" required>
-            <option value="" disabled selected>¿A qué te dedicás?</option>
-            <option value="Delivery y reparto">Delivery y reparto</option>
-            <option value="Técnico a domicilio">Técnico a domicilio</option>
-            <option value="Comerciante">Comerciante</option>
-            <option value="Emprendedor">Emprendedor</option>
-            <option value="Profesional independiente">Profesional independiente</option>
-            <option value="Mensajería">Mensajería</option>
-            <option value="Otro">Otro</option>
-          </select>
-          <input type="text" id="leadIngresos" name="ingresos" placeholder="Ingresos mensuales aproximados (ARS)" required inputmode="numeric" />
-          <input type="text" id="leadLocalidad" name="localidad" placeholder="Tu localidad" required autocomplete="address-level2" />
-          <input type="text" id="leadProducto" name="producto" placeholder="¿Qué producto buscás? (ej: moto 110cc, eléctrica...)" required />
-          <button type="submit" class="btn btn-lg" id="calcCta">Recibir mi plan personalizado
-            <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
-          </button>
-          <p class="calc-form-hint">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-            Tus datos están protegidos. Sin compromiso y sin spam.
-          </p>
-        </form>
         <p class="calc-success" id="calcSuccess" hidden></p>
       </div>
     </div>
     <p class="calc-disclaimer">* Estimación orientativa sobre 24 días laborables por mes. Los resultados reales dependen de tu rubro y tu zona.</p>
+
+    <div class="plan-divider reveal">
+      <p class="eyebrow eyebrow-dark">Financiamiento</p>
+      <h3>Elegí tu <strong>plan de pago</strong></h3>
+      <p class="section-sub">Elegí el modelo y mirá cómo queda tu anticipo y tu cuota.</p>
+    </div>
+
+    <div class="plan-select reveal" id="planSelect">
+      <button type="button" class="plan-card" data-plan="base">
+        <span class="plan-card-name">IKA y Corven <strong>Base</strong></span>
+        <span class="plan-card-nominal">$1.700.000</span>
+        <span class="plan-card-anticipo">Anticipo: 3 pagos de $190.000</span>
+      </button>
+      <button type="button" class="plan-card is-active" data-plan="full">
+        <span class="plan-card-name">IKA y Corven <strong>Full</strong></span>
+        <span class="plan-card-nominal">$2.000.000</span>
+        <span class="plan-card-anticipo">Anticipo: 3 pagos de $290.000</span>
+      </button>
+    </div>
+
+    <div class="calc-box calc-box-single reveal">
+      <div class="calc-inputs">
+        <label class="calc-field">
+          <span>¿En cuántos meses pagás el resto?</span>
+          <div class="cuotas-control" id="cuotasControl" role="group" aria-label="Cantidad de meses">
+            <button type="button" class="cuota-btn" data-cuotas="6">6 meses</button>
+            <button type="button" class="cuota-btn" data-cuotas="9">9 meses</button>
+            <button type="button" class="cuota-btn is-active" data-cuotas="12">12 meses</button>
+          </div>
+        </label>
+      </div>
+
+      <div class="calc-result">
+        <div class="calc-row">
+          <span>Valor nominal</span>
+          <strong id="planNominal">$2.000.000</strong>
+        </div>
+        <div class="calc-row highlight">
+          <span>Anticipo (3 pagos de)</span>
+          <strong id="planAnticipo">$290.000</strong>
+        </div>
+        <div class="calc-extra">
+          <span>Cuota semanal estimada</span>
+          <strong id="cuotaSemanal">$79.000</strong>
+          <span id="cuotaMensualCant">durante 12 meses</span>
+        </div>
+        <div class="calc-row calc-row-sub">
+          <span>Equivale a por mes</span>
+          <strong id="cuotaMensual">$316.000</strong>
+        </div>
+        <p class="calc-form-hint">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          Sujeto a aprobación.
+        </p>
+        <a href="/formulario" class="btn btn-lg" id="planCta">Continuar con mi plan
+          <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
+        </a>
+      </div>
+    </div>
+    <p class="calc-disclaimer">* Valores de referencia para IKA y Corven Base y Full. El monto final puede variar según la evaluación de tu solicitud.</p>
   </div>
 </section>
