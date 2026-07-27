@@ -376,59 +376,65 @@ document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((item) => {
   });
 });
 
-// ===== Plan de pago (integraciones + cuotas) =====
-const PRECIO_REFERENCIA = 2500000;
+// ===== Plan de pago (IKA y Corven Base / Full) =====
+type PlanKey = 'base' | 'full';
+const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPago: number; cuotaMensual12: number }> = {
+  base: { nombre: 'IKA y Corven Base', valorNominal: 1700000, anticipoPago: 190000, cuotaMensual12: 316000 },
+  full: { nombre: 'IKA y Corven Full', valorNominal: 2000000, anticipoPago: 290000, cuotaMensual12: 316000 },
+};
 
-const integracion1Input = document.getElementById('integracion1') as HTMLInputElement | null;
-const integracion1Out = document.getElementById('integracion1Out');
-const integracion2Out = document.getElementById('integracion2Out');
-const integracion3Out = document.getElementById('integracion3Out');
+const planSelect = document.getElementById('planSelect');
 const cuotasControl = document.getElementById('cuotasControl');
-const prorratearInput = document.getElementById('prorratear') as HTMLInputElement | null;
-const precioRefEl = document.getElementById('precioRef');
-const integracionUnicaEl = document.getElementById('integracionUnica');
+const planNominalEl = document.getElementById('planNominal');
+const planAnticipoEl = document.getElementById('planAnticipo');
+const cuotaMensualEl = document.getElementById('cuotaMensual');
+const cuotaMensualCantEl = document.getElementById('cuotaMensualCant');
 const cuotaSemanalEl = document.getElementById('cuotaSemanal');
-const cuotaSemanalCantEl = document.getElementById('cuotaSemanalCant');
 const planCta = document.getElementById('planCta') as HTMLAnchorElement | null;
 
-if (integracion1Input && cuotasControl && precioRefEl && integracionUnicaEl && cuotaSemanalEl) {
-  let cuotasSeleccionadas = 9;
+if (planSelect && cuotasControl && planNominalEl && planAnticipoEl && cuotaMensualEl) {
+  let planActivo: PlanKey = 'full';
+  let mesesSeleccionados = 12;
 
   const calcularPlan = () => {
-    const integracion1 = parseInt(integracion1Input.value, 10);
-    const integracionUnica = integracion1 * 3;
-    const montoAFinanciar = prorratearInput?.checked ? PRECIO_REFERENCIA : PRECIO_REFERENCIA - integracionUnica;
-    const cuotaSemanal = montoAFinanciar / cuotasSeleccionadas;
+    const plan = PLANES[planActivo];
+    const totalAPagar = plan.cuotaMensual12 * 12;
+    const cuotaMensual = totalAPagar / mesesSeleccionados;
+    const cuotaSemanalVal = cuotaMensual / 4;
+    const anticipoTotal = plan.anticipoPago * 3;
 
-    if (integracion1Out) integracion1Out.textContent = pesos(integracion1);
-    if (integracion2Out) integracion2Out.textContent = pesos(integracion1);
-    if (integracion3Out) integracion3Out.textContent = pesos(integracion1);
-    precioRefEl.textContent = pesos(PRECIO_REFERENCIA);
-    integracionUnicaEl.textContent = pesos(integracionUnica);
-    cuotaSemanalEl.textContent = pesos(cuotaSemanal);
-    if (cuotaSemanalCantEl) cuotaSemanalCantEl.textContent = `durante ${cuotasSeleccionadas} semanas`;
-
-    pintarSlider(integracion1Input);
+    planNominalEl.textContent = pesos(plan.valorNominal);
+    planAnticipoEl.textContent = pesos(plan.anticipoPago);
+    cuotaMensualEl.textContent = pesos(cuotaMensual);
+    if (cuotaMensualCantEl) cuotaMensualCantEl.textContent = `durante ${mesesSeleccionados} meses`;
+    if (cuotaSemanalEl) cuotaSemanalEl.textContent = pesos(cuotaSemanalVal);
 
     if (planCta) {
       const params = new URLSearchParams({
-        integracion: String(integracion1),
-        cuotas: String(cuotasSeleccionadas),
-        cuotaSemanal: String(Math.round(cuotaSemanal)),
-        prorrateo: prorratearInput?.checked ? 'si' : 'no',
+        plan: plan.nombre,
+        anticipo: String(anticipoTotal),
+        meses: String(mesesSeleccionados),
+        cuotaMensual: String(Math.round(cuotaMensual)),
+        cuotaSemanal: String(Math.round(cuotaSemanalVal)),
       });
       planCta.href = `/formulario?${params.toString()}`;
     }
   };
 
-  integracion1Input.addEventListener('input', calcularPlan);
-  prorratearInput?.addEventListener('change', calcularPlan);
+  planSelect.querySelectorAll<HTMLButtonElement>('.plan-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      planSelect.querySelectorAll('.plan-card').forEach((c) => c.classList.remove('is-active'));
+      card.classList.add('is-active');
+      planActivo = (card.dataset.plan as PlanKey) || 'full';
+      calcularPlan();
+    });
+  });
 
   cuotasControl.querySelectorAll<HTMLButtonElement>('.cuota-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       cuotasControl.querySelectorAll('.cuota-btn').forEach((b) => b.classList.remove('is-active'));
       btn.classList.add('is-active');
-      cuotasSeleccionadas = parseInt(btn.dataset.cuotas || '9', 10);
+      mesesSeleccionados = parseInt(btn.dataset.cuotas || '12', 10);
       calcularPlan();
     });
   });

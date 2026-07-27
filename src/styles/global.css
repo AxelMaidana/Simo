@@ -372,12 +372,30 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 }
 .cuota-btn:hover { border-color: rgba(31, 201, 184, 0.5); }
 .cuota-btn.is-active { background: var(--color-teal); border-color: var(--color-teal); color: var(--color-navy-deep); }
-.calc-checkbox {
-  display: flex; align-items: flex-start; gap: 0.7rem; cursor: pointer;
-  color: var(--color-gray-dark); font-size: 0.92rem; line-height: 1.4;
-}
-.calc-checkbox input { flex: none; width: 18px; height: 18px; margin-top: 0.15rem; accent-color: var(--color-teal); cursor: pointer; }
 .calc-result .btn { width: 100%; margin-top: 0.2rem; }
+
+.plan-divider { max-width: 720px; margin: 0 auto 2.4rem; text-align: center; padding-top: var(--section-pad); border-top: 1px solid var(--line-dark); }
+.plan-divider h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 0.2rem 0 0.8rem; }
+.plan-divider h3 strong { color: var(--color-teal); }
+.plan-select {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem;
+  max-width: 720px; margin: 0 auto 2rem;
+}
+.plan-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 0.4rem;
+  background: var(--color-navy-card); border: 1px solid var(--line-dark);
+  border-radius: 18px; padding: 1.4rem 1.5rem; text-align: left; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.25s var(--ease-out);
+  color: var(--color-gray-dark);
+}
+.plan-card:hover { border-color: rgba(31, 201, 184, 0.5); transform: translateY(-2px); }
+.plan-card.is-active { background: rgba(31, 201, 184, 0.1); border-color: var(--color-teal); }
+.plan-card-name { font-family: var(--font-display); font-size: 1.05rem; color: #fff; }
+.plan-card-name strong { color: var(--color-teal); }
+.plan-card-nominal { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: #fff; }
+.plan-card-anticipo { font-size: 0.85rem; }
+.calc-row-sub { border-bottom: none; padding-bottom: 0; padding-top: 0; }
+.calc-row-sub strong { font-size: 1rem; color: var(--color-gray-dark); }
 
 /* ===== Cómo funciona (timeline) ===== */
 .steps { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; }
