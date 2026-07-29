@@ -15,8 +15,10 @@ const navInner = nav?.querySelector<HTMLElement>('.nav-inner');
 let navIsScrolled = false;
 
 if (nav && navInner) {
-  const scrolledPadX = '1.4rem';
-  const scrolledGap = '3.5rem';
+  const isNarrow = () => window.innerWidth <= 640;
+  const getScrolledPadX = () => (isNarrow() ? '1rem' : '1.4rem');
+  const getScrolledGap = () => (isNarrow() ? '0.75rem' : '3.5rem');
+  const getRestGap = () => (isNarrow() ? '0.75rem' : '2.75rem');
 
   // Mide el ancho que ocupa el contenido del nav con el padding y el gap "pill",
   // para que el ancho animado se ajuste al contenido en vez de dejar espacio de sobra.
@@ -26,9 +28,9 @@ if (nav && navInner) {
 
     nav.style.width = 'fit-content';
     nav.style.maxWidth = 'none';
-    navInner.style.paddingLeft = scrolledPadX;
-    navInner.style.paddingRight = scrolledPadX;
-    navInner.style.gap = scrolledGap;
+    navInner.style.paddingLeft = getScrolledPadX();
+    navInner.style.paddingRight = getScrolledPadX();
+    navInner.style.gap = getScrolledGap();
 
     const width = nav.getBoundingClientRect().width;
 
@@ -54,9 +56,9 @@ if (nav && navInner) {
     gsap.to(navInner, {
       paddingTop: scrolled ? '0.55rem' : '0.85rem',
       paddingBottom: scrolled ? '0.55rem' : '0.85rem',
-      paddingLeft: scrolled ? scrolledPadX : '6vw',
-      paddingRight: scrolled ? scrolledPadX : '6vw',
-      gap: scrolled ? scrolledGap : '2.75rem',
+      paddingLeft: scrolled ? getScrolledPadX() : '6vw',
+      paddingRight: scrolled ? getScrolledPadX() : '6vw',
+      gap: scrolled ? getScrolledGap() : getRestGap(),
       duration: 0.5,
       ease: 'power3.out',
       overwrite: 'auto',
