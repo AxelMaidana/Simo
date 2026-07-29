@@ -9,15 +9,70 @@ const WSP = '5493624971816';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ===== Nav con sombra al hacer scroll =====
+// ===== Nav: efecto "pill" flotante al hacer scroll =====
 const nav = document.getElementById('nav');
-window.addEventListener(
-  'scroll',
-  () => {
-    nav?.classList.toggle('scrolled', window.scrollY > 10);
-  },
-  { passive: true }
-);
+const navInner = nav?.querySelector<HTMLElement>('.nav-inner');
+let navIsScrolled = false;
+
+if (nav && navInner) {
+  const scrolledPadX = '1.4rem';
+  const scrolledGap = '3.5rem';
+
+  // Mide el ancho que ocupa el contenido del nav con el padding y el gap "pill",
+  // para que el ancho animado se ajuste al contenido en vez de dejar espacio de sobra.
+  const measurePillWidth = () => {
+    const prevNavStyle = nav.getAttribute('style');
+    const prevInnerStyle = navInner.getAttribute('style');
+
+    nav.style.width = 'fit-content';
+    nav.style.maxWidth = 'none';
+    navInner.style.paddingLeft = scrolledPadX;
+    navInner.style.paddingRight = scrolledPadX;
+    navInner.style.gap = scrolledGap;
+
+    const width = nav.getBoundingClientRect().width;
+
+    prevNavStyle ? nav.setAttribute('style', prevNavStyle) : nav.removeAttribute('style');
+    prevInnerStyle ? navInner.setAttribute('style', prevInnerStyle) : navInner.removeAttribute('style');
+
+    return width;
+  };
+
+  const setNavScrolled = (scrolled: boolean) => {
+    if (scrolled === navIsScrolled) return;
+    navIsScrolled = scrolled;
+
+    gsap.to(nav, {
+      width: scrolled ? measurePillWidth() : '100%',
+      top: scrolled ? 22 : 10,
+      borderRadius: scrolled ? 999 : 0,
+      boxShadow: scrolled ? '0 20px 45px -20px rgba(12, 27, 46, 0.35)' : '0 0 0 rgba(12, 27, 46, 0)',
+      duration: 0.5,
+      ease: 'power3.out',
+      overwrite: 'auto',
+    });
+    gsap.to(navInner, {
+      paddingTop: scrolled ? '0.55rem' : '0.85rem',
+      paddingBottom: scrolled ? '0.55rem' : '0.85rem',
+      paddingLeft: scrolled ? scrolledPadX : '6vw',
+      paddingRight: scrolled ? scrolledPadX : '6vw',
+      gap: scrolled ? scrolledGap : '2.75rem',
+      duration: 0.5,
+      ease: 'power3.out',
+      overwrite: 'auto',
+    });
+  };
+
+  window.addEventListener('scroll', () => setNavScrolled(window.scrollY > 50), { passive: true });
+  window.addEventListener(
+    'resize',
+    () => {
+      if (navIsScrolled) gsap.set(nav, { width: measurePillWidth() });
+    },
+    { passive: true }
+  );
+  setNavScrolled(window.scrollY > 50);
+}
 
 // ===== Lenis smooth scroll, sincronizado con GSAP ScrollTrigger =====
 const lenis = new Lenis();
@@ -36,8 +91,11 @@ document.addEventListener('click', (e) => {
   const target = document.querySelector<HTMLElement>(href);
   if (!target) return;
 
+  const offsetAttr = link.dataset.scrollOffset;
+  const offset = offsetAttr !== undefined ? Number(offsetAttr) : -84;
+
   e.preventDefault();
-  lenis.scrollTo(target, { offset: -84, duration: 1.2 });
+  lenis.scrollTo(target, { offset, duration: 1.2 });
   history.pushState(null, '', href);
 });
 
@@ -146,18 +204,38 @@ if (marqueeTrack) {
   marqueeTrack.addEventListener('mouseleave', () => marqueeTween.play());
 }
 
-// ===== Pausar animaciones CSS del hero cuando no se ven =====
-const heroVisual = document.querySelector<HTMLElement>('.hero-visual');
-if (heroVisual) {
+// ===== Pausar animaciones CSS de los chips cuando no se ven =====
+const motoPhoto = document.querySelector<HTMLElement>('.moto-photo');
+if (motoPhoto) {
   const loopObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        heroVisual.classList.toggle('anim-paused', !entry.isIntersecting);
+        motoPhoto.classList.toggle('anim-paused', !entry.isIntersecting);
       });
     },
     { threshold: 0 }
   );
-  loopObserver.observe(heroVisual);
+  loopObserver.observe(motoPhoto);
+}
+
+// ===== Palabra grande detrás de la moto: se desplaza con el scroll =====
+const motoWord = document.querySelector<HTMLElement>('.moto-word');
+const motoShowcase = document.querySelector('.moto-showcase');
+if (motoWord && motoShowcase && !reducedMotion) {
+  gsap.fromTo(
+    motoWord,
+    { yPercent: -30 },
+    {
+      yPercent: 10,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: motoShowcase,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 0.5,
+      },
+    }
+  );
 }
 
 // ===== Aplica el número de WhatsApp a todos los links =====
@@ -385,14 +463,13 @@ const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPa
 
 const planSelect = document.getElementById('planSelect');
 const cuotasControl = document.getElementById('cuotasControl');
-const planNominalEl = document.getElementById('planNominal');
 const planAnticipoEl = document.getElementById('planAnticipo');
 const cuotaMensualEl = document.getElementById('cuotaMensual');
 const cuotaMensualCantEl = document.getElementById('cuotaMensualCant');
 const cuotaSemanalEl = document.getElementById('cuotaSemanal');
 const planCta = document.getElementById('planCta') as HTMLAnchorElement | null;
 
-if (planSelect && cuotasControl && planNominalEl && planAnticipoEl && cuotaMensualEl) {
+if (planSelect && cuotasControl && planAnticipoEl && cuotaMensualEl) {
   let planActivo: PlanKey = 'full';
   let mesesSeleccionados = 12;
 
@@ -402,11 +479,11 @@ if (planSelect && cuotasControl && planNominalEl && planAnticipoEl && cuotaMensu
     const cuotaMensual = totalAPagar / mesesSeleccionados;
     const cuotaSemanalVal = cuotaMensual / 4;
     const anticipoTotal = plan.anticipoPago * 3;
+    const semanas = mesesSeleccionados * 4;
 
-    planNominalEl.textContent = pesos(plan.valorNominal);
     planAnticipoEl.textContent = pesos(plan.anticipoPago);
     cuotaMensualEl.textContent = pesos(cuotaMensual);
-    if (cuotaMensualCantEl) cuotaMensualCantEl.textContent = `durante ${mesesSeleccionados} meses`;
+    if (cuotaMensualCantEl) cuotaMensualCantEl.textContent = `durante ${semanas} semanas`;
     if (cuotaSemanalEl) cuotaSemanalEl.textContent = pesos(cuotaSemanalVal);
 
     if (planCta) {

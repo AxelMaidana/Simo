@@ -95,20 +95,18 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 }
 .topbar strong { color: #fff; font-weight: 600; }
 
-/* ===== Nav ===== */
+/* ===== Nav (efecto "pill" flotante al hacer scroll, animado con GSAP) ===== */
 .nav {
-  position: sticky; top: 0; z-index: 50;
+  position: sticky; top: 10px; z-index: 50;
+  width: 100%; margin: 0 auto;
   background: rgba(255, 255, 255, 0.92);
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.3s, box-shadow 0.3s;
 }
-.nav.scrolled { border-bottom-color: var(--color-line); box-shadow: var(--shadow-sm); }
 .nav-inner {
   max-width: 1180px; margin: 0 auto; padding: 0.85rem 6vw;
-  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2.75rem;
 }
-.nav.scrolled .nav-inner { padding-top: 0.6rem; padding-bottom: 0.6rem; }
 .logo { display: inline-flex; align-items: center; text-decoration: none; }
 .logo-img { display: block; height: 24px; width: auto; }
 .nav-links { display: flex; gap: 1.6rem; }
@@ -132,20 +130,20 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 .nav-phone svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .nav-phone:hover { color: var(--color-teal-dark); }
 
-/* ===== Hero ===== */
+/* ===== Hero (simple, centrado) ===== */
 .hero {
   position: relative;
   background:
-    radial-gradient(60% 90% at 88% 8%, var(--teal-soft) 0%, transparent 60%),
+    radial-gradient(60% 90% at 50% 0%, var(--teal-soft) 0%, transparent 60%),
     linear-gradient(180deg, var(--color-bg-soft) 0%, #ffffff 90%);
-  padding: clamp(3rem, 6vw, 5rem) 6vw 0;
+  padding: clamp(4rem, 10vh, 6rem) 6vw clamp(2.5rem, 6vh, 4rem);
   overflow: hidden;
+  min-height: 88vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.hero-grid {
-  max-width: 1180px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-  margin-bottom: clamp(3rem, 5vw, 4.5rem);
+.hero-center {
+  max-width: 760px; margin: 0 auto; text-align: center;
+  display: flex; flex-direction: column; align-items: center;
 }
 .hero-badge {
   display: inline-flex; align-items: center; gap: 0.5rem;
@@ -154,41 +152,67 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   box-shadow: var(--shadow-sm); margin-bottom: 1.4rem;
 }
 .hero-badge svg { width: 17px; height: 17px; fill: none; stroke: var(--color-teal-dark); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.hero h1 { font-size: clamp(2.3rem, 3.9vw, 3.4rem); font-weight: 700; margin-bottom: 1.2rem; }
-.hero .lead { max-width: 540px; margin-bottom: 2rem; }
-.hero-cta { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
-.hero-trust { list-style: none; display: flex; flex-wrap: wrap; gap: 1.3rem; padding-bottom: 2.5rem; }
+.hero h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); font-weight: 700; margin-bottom: 1.2rem; }
+.hero .lead { max-width: 560px; margin: 0 auto 2rem; }
+.hero-cta { display: flex; justify-content: center; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
+.hero-trust { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.3rem; }
 .hero-trust li { display: flex; align-items: center; gap: 0.45rem; color: var(--color-ink-2); font-weight: 500; font-size: 0.92rem; }
 .hero-trust svg { width: 17px; height: 17px; fill: none; stroke: var(--color-teal-dark); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Indicador de scroll */
+.hero-scroll {
+  position: absolute; left: 50%; bottom: clamp(1.2rem, 3vh, 2rem); transform: translateX(-50%);
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 50%; border: 1px solid var(--color-line); background: #fff;
+  color: var(--color-teal-dark); box-shadow: var(--shadow-sm);
+  animation: heroScrollBounce 2s ease-in-out infinite;
+}
+.hero-scroll svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes heroScrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
 
 /* Estado inicial de la animación de entrada del hero (la anima GSAP) */
 .intro-item { opacity: 0; transform: translateY(24px); }
 
-/* Visual del hero */
-.hero-visual { position: relative; align-self: end; padding: 1rem 0 0; }
-.hero-photo {
-  position: relative; z-index: 2;
-  border-radius: 26px; overflow: hidden;
+/* ===== Sección de la moto (pantalla completa, palabra vidrio líquido) ===== */
+.moto-showcase { position: relative; overflow: hidden; padding: 0 0 clamp(3rem, 7vw, 5rem); }
+.moto-photo {
+  position: relative; width: 100vw; height: 100vh; min-height: 560px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
   background: linear-gradient(160deg, var(--color-navy) 0%, var(--color-navy-card) 70%);
   box-shadow: var(--shadow-lg);
 }
-.hero-photo::after {
+.moto-photo::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(200deg, rgba(31,201,184,0.15) 0%, transparent 40%);
   pointer-events: none;
 }
-.hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1500 / 1000; object-fit: cover; }
-
-/* Ruta punteada animada detrás de la foto */
-.hero-route {
-  position: absolute; inset: -8% -10% auto; width: 115%; z-index: 1;
-  color: var(--color-teal); opacity: 0.55; pointer-events: none;
+.moto-photo img {
+  position: absolute; z-index: 2;
+  display: block;
+  width: min(78vw, 1180px); height: auto;
+  max-height: 72vh;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  object-fit: contain;
 }
-.route-path { stroke-dashoffset: 0; animation: routeFlow 22s linear infinite; }
-@keyframes routeFlow { to { stroke-dashoffset: -300; } }
-.route-dot { animation: dotPulse 2.4s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
-.route-dot.end { animation-delay: 1.2s; }
-@keyframes dotPulse { 0%, 100% { transform: scale(1); opacity: 0.9; } 50% { transform: scale(1.6); opacity: 0.4; } }
+.moto-word-glass {
+  padding-bottom: 90px;
+  position: absolute; z-index: 1; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.moto-word {
+  position: relative; display: block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(4rem, 14vw, 13rem); line-height: 1; letter-spacing: -0.03em;
+  user-select: none; text-align: center;
+  color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(210, 235, 255, 0.85) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 92%);
+  mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 87%);
+}
 
 /* Chips flotantes tipo fintech */
 .hero-chip {
@@ -209,15 +233,14 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 .chip-ico svg { width: 18px; height: 18px; fill: none; stroke: var(--color-navy-deep); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .chip-ico-nav { background: var(--color-navy); }
 .chip-ico-nav svg { stroke: var(--color-teal); }
-.chip-approved { top: 8%; left: -6%; }
-.chip-growth { bottom: 10%; right: -4%; animation-delay: 2.2s; }
+.chip-approved { top: 12%; left: clamp(0.75rem, 4vw, 4rem); }
+.chip-growth { bottom: 14%; right: clamp(0.75rem, 4vw, 4rem); animation-delay: 2.2s; }
 @keyframes chipFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.anim-paused .route-path, .anim-paused .route-dot, .anim-paused .hero-chip { animation-play-state: paused; }
+.anim-paused .hero-chip { animation-play-state: paused; }
 
 /* ===== Métricas ===== */
 .stats {
-  max-width: 1180px; margin: 0 auto;
-  transform: translateY(50%);
+  max-width: 1180px; margin: 3rem auto 0;
   position: relative; z-index: 4;
   background: #fff; border: 1px solid var(--color-line); border-radius: 20px;
   box-shadow: var(--shadow-md);
@@ -390,9 +413,8 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 }
 .plan-card:hover { border-color: rgba(31, 201, 184, 0.5); transform: translateY(-2px); }
 .plan-card.is-active { background: rgba(31, 201, 184, 0.1); border-color: var(--color-teal); }
-.plan-card-name { font-family: var(--font-display); font-size: 1.05rem; color: #fff; }
+.plan-card-name { font-family: var(--font-display); font-size: 1.1rem; color: #fff; }
 .plan-card-name strong { color: var(--color-teal); }
-.plan-card-nominal { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: #fff; }
 .plan-card-anticipo { font-size: 0.85rem; }
 .calc-row-sub { border-bottom: none; padding-bottom: 0; padding-top: 0; }
 .calc-row-sub strong { font-size: 1rem; color: var(--color-gray-dark); }
@@ -593,11 +615,8 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
-  .hero-grid { grid-template-columns: 1fr; }
-  .hero-visual { max-width: 560px; margin: 0 auto; width: 100%; }
   .chip-approved { left: 2%; }
   .chip-growth { right: 2%; }
-  .stats { transform: none; margin-top: 2.5rem; margin-bottom: -1rem; }
   .faq-grid { grid-template-columns: 1fr; }
   .faq-intro { position: static; }
 }
@@ -615,6 +634,7 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   .vs-head span:first-child, .vs-row span:first-child { display: none; }
   .wsp-float { width: 50px; height: 50px; }
   .wsp-float svg { width: 27px; height: 27px; }
+  .plan-select { grid-template-columns: 1fr; max-width: 400px; }
 }
 @media (max-width: 560px) {
   .steps { grid-template-columns: 1fr; }
@@ -624,12 +644,18 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   .hero-chip small { font-size: 0.7rem; }
   .topbar { font-size: 0.74rem; }
   .topbar-extra { display: none; }
+  .calc-row { flex-wrap: wrap; row-gap: 0.3rem; }
+  .calc-row span { font-size: 0.88rem; }
+  .cuotas-control { gap: 0.5rem; }
+  .cuota-btn { min-width: 0; font-size: 0.85rem; padding: 0.65rem 0.4rem; }
+  .plan-card { padding: 1.1rem 1.2rem; }
 }
 
 /* ===== Accesibilidad: menos movimiento ===== */
 @media (prefers-reduced-motion: reduce) {
   .intro-item { opacity: 1; transform: none; }
   .reveal { opacity: 1; transform: none; }
-  .route-path, .route-dot, .wsp-float::after { animation: none; }
+  .wsp-float::after { animation: none; }
   .hero-chip { animation: none; }
+  .hero-scroll { animation: none; }
 }
