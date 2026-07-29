@@ -122,7 +122,7 @@ const GOOGLE_FORM_ACTION =
     if (summaryAnticipo) summaryAnticipo.textContent = pesos(anticipo);
     if (summaryCuotaSemanal) summaryCuotaSemanal.textContent = pesos(cuotaSemanal);
     if (summaryCuotaMensual) summaryCuotaMensual.textContent = pesos(cuotaMensual);
-    if (summaryMeses) summaryMeses.textContent = `durante ${meses} meses`;
+    if (summaryMeses) summaryMeses.textContent = `durante ${Number(meses) * 4} semanas`;
 
     const hiddenAnticipo = document.getElementById('hiddenAnticipo') as HTMLInputElement | null;
     const hiddenMeses = document.getElementById('hiddenMeses') as HTMLInputElement | null;
