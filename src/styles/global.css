@@ -130,127 +130,35 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 .nav-phone svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .nav-phone:hover { color: var(--color-teal-dark); }
 
-/* ===== Hero (simple, centrado) ===== */
+/* ===== Hero ===== */
 .hero {
   position: relative;
   background:
-    radial-gradient(60% 90% at 50% 0%, var(--teal-soft) 0%, transparent 60%),
-    linear-gradient(180deg, var(--color-bg-soft) 0%, #ffffff 90%);
-  padding: clamp(4rem, 10vh, 6rem) 6vw clamp(2.5rem, 6vh, 4rem);
-  overflow: hidden;
+    linear-gradient(100deg, rgba(4, 14, 26, 0.72) 0%, rgba(4, 14, 26, 0.4) 45%, rgba(4, 14, 26, 0.08) 65%),
+    url('/img/hero-moto.webp') center right / cover no-repeat,
+    var(--color-navy-deep);
   min-height: 88vh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  display: flex; align-items: center;
+  overflow: hidden;
 }
-.hero-center {
-  max-width: 760px; margin: 0 auto; text-align: center;
-  display: flex; flex-direction: column; align-items: center;
+.hero-inner { width: 100%; max-width: 1320px; margin: 0 auto; padding: clamp(6rem, 14vh, 8rem) 6vw clamp(3rem, 8vh, 4rem); }
+.hero-copy { max-width: 640px; }
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.9rem); font-weight: 700; line-height: 1.12;
+  letter-spacing: -0.02em; color: #fff; margin-bottom: 1.3rem;
 }
-.hero-badge {
+.hero h1 strong { color: var(--color-teal); font-weight: 700; }
+.hero .lead { max-width: 480px; margin-bottom: 2.2rem; color: rgba(255, 255, 255, 0.78); }
+.hero-cta { display: flex; align-items: center; gap: 1.6rem; flex-wrap: wrap; }
+.btn-link {
   display: inline-flex; align-items: center; gap: 0.5rem;
-  background: #fff; border: 1px solid var(--color-line); border-radius: 999px;
-  padding: 0.45rem 1rem; font-size: 0.86rem; font-weight: 600; color: var(--color-navy);
-  box-shadow: var(--shadow-sm); margin-bottom: 1.4rem;
+  color: #fff; font-weight: 600; text-decoration: none;
 }
-.hero-badge svg { width: 17px; height: 17px; fill: none; stroke: var(--color-teal-dark); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.hero h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); font-weight: 700; margin-bottom: 1.2rem; }
-.hero .lead { max-width: 560px; margin: 0 auto 2rem; }
-.hero-cta { display: flex; justify-content: center; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
-.hero-trust { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.3rem; }
-.hero-trust li { display: flex; align-items: center; gap: 0.45rem; color: var(--color-ink-2); font-weight: 500; font-size: 0.92rem; }
-.hero-trust svg { width: 17px; height: 17px; fill: none; stroke: var(--color-teal-dark); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-
-/* Indicador de scroll */
-.hero-scroll {
-  position: absolute; left: 50%; bottom: clamp(1.2rem, 3vh, 2rem); transform: translateX(-50%);
-  display: grid; place-items: center; width: 40px; height: 40px;
-  border-radius: 50%; border: 1px solid var(--color-line); background: #fff;
-  color: var(--color-teal-dark); box-shadow: var(--shadow-sm);
-  animation: heroScrollBounce 2s ease-in-out infinite;
-}
-.hero-scroll svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-@keyframes heroScrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+.btn-link .arr { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.25s var(--ease-out); }
+.btn-link:hover .arr { transform: translateX(4px); }
 
 /* Estado inicial de la animación de entrada del hero (la anima GSAP) */
 .intro-item { opacity: 0; transform: translateY(24px); }
-
-/* ===== Sección de la moto (pantalla completa, palabra vidrio líquido) ===== */
-.moto-showcase { position: relative; overflow: hidden; padding: 0 0 clamp(3rem, 7vw, 5rem); }
-.moto-photo {
-  position: relative; width: 100vw; height: 100vh; min-height: 560px;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  background: linear-gradient(160deg, var(--color-navy) 0%, var(--color-navy-card) 70%);
-  box-shadow: var(--shadow-lg);
-}
-.moto-photo::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(200deg, rgba(31,201,184,0.15) 0%, transparent 40%);
-  pointer-events: none;
-}
-.moto-photo img {
-  position: absolute; z-index: 2;
-  display: block;
-  width: min(78vw, 1180px); height: auto;
-  max-height: 72vh;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  object-fit: contain;
-}
-.moto-word-glass {
-  padding-bottom: 90px;
-  position: absolute; z-index: 1; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.moto-word {
-  position: relative; display: block;
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(4rem, 14vw, 13rem); line-height: 1; letter-spacing: -0.03em;
-  user-select: none; text-align: center;
-  color: transparent;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(210, 235, 255, 0.85) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 60%, transparent 92%);
-  mask-image: linear-gradient(to bottom, black 0%, black 40%, transparent 87%);
-}
-
-/* Chips flotantes tipo fintech */
-.hero-chip {
-  position: absolute; z-index: 3;
-  display: flex; align-items: center; gap: 0.7rem;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid var(--color-line); border-radius: 14px;
-  padding: 0.7rem 1rem; box-shadow: var(--shadow-md);
-  animation: chipFloat 5.5s ease-in-out infinite;
-}
-.hero-chip strong { display: block; font-size: 0.9rem; color: var(--color-navy); line-height: 1.25; }
-.hero-chip small { display: block; font-size: 0.76rem; color: var(--color-ink-2); }
-.chip-ico {
-  flex: none; width: 34px; height: 34px; border-radius: 10px;
-  background: var(--color-teal); display: grid; place-items: center;
-  box-shadow: 0 4px 10px -3px rgba(31, 201, 184, 0.65);
-}
-.chip-ico svg { width: 18px; height: 18px; fill: none; stroke: var(--color-navy-deep); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-.chip-ico-nav { background: var(--color-navy); }
-.chip-ico-nav svg { stroke: var(--color-teal); }
-.chip-approved { top: 12%; left: clamp(0.75rem, 4vw, 4rem); }
-.chip-growth { bottom: 14%; right: clamp(0.75rem, 4vw, 4rem); animation-delay: 2.2s; }
-@keyframes chipFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.anim-paused .hero-chip { animation-play-state: paused; }
-
-/* ===== Métricas ===== */
-.stats {
-  max-width: 1180px; margin: 3rem auto 0;
-  position: relative; z-index: 4;
-  background: #fff; border: 1px solid var(--color-line); border-radius: 20px;
-  box-shadow: var(--shadow-md);
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  padding: 1.8rem 1rem;
-}
-.stat { text-align: center; padding: 0.4rem 1rem; }
-.stat + .stat { border-left: 1px solid var(--color-line); }
-.stat-num { display: block; font-size: clamp(1.9rem, 3.4vw, 2.6rem); font-weight: 700; color: var(--color-navy); }
-.stat-label { color: var(--color-ink-2); font-size: 0.9rem; }
 
 /* ===== Marquee ===== */
 .marquee { padding: calc(var(--section-pad) * 0.9) 0 2.6rem; background: #fff; overflow: hidden; }
@@ -278,24 +186,59 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 .section-dark h2 strong { color: var(--color-teal); }
 .section-inner { max-width: 1180px; margin: 0 auto; padding: var(--section-pad) 6vw; }
 
-/* ===== Cards "qué es el leasing" ===== */
+/* ===== Cards "qué es el leasing" (con foto) ===== */
 .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
-.card {
+.pcard {
   background: #fff; border: 1px solid var(--color-line); border-radius: var(--radius);
-  padding: 2.1rem; box-shadow: var(--shadow-sm);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  display: flex; flex-direction: column;
   transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out), border-color 0.3s;
 }
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(31, 201, 184, 0.45); }
-.card-ico {
-  width: 52px; height: 52px; border-radius: 14px;
-  background: var(--teal-soft); display: grid; place-items: center; margin-bottom: 1.3rem;
-  transition: transform 0.35s var(--ease-out), background 0.3s;
+.pcard:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(31, 201, 184, 0.45); }
+.pcard-head { display: flex; align-items: center; gap: 0.9rem; padding: 1.3rem 1.5rem; }
+.pcard-ico {
+  flex: none; width: 40px; height: 40px; border-radius: 11px;
+  background: var(--teal-soft); display: grid; place-items: center;
 }
-.card:hover .card-ico { transform: scale(1.08) rotate(-3deg); background: var(--color-teal); }
-.card-ico svg { width: 26px; height: 26px; fill: none; stroke: var(--color-teal-dark); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.3s; }
-.card:hover .card-ico svg { stroke: var(--color-navy-deep); }
-.card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-.card p { color: var(--color-ink-2); font-size: 0.98rem; }
+.pcard-ico svg { width: 21px; height: 21px; fill: none; stroke: var(--color-teal-dark); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pcard-head h3 { font-size: 1.15rem; }
+.pcard-head p { color: var(--color-ink-2); font-size: 0.85rem; margin-top: 0.1rem; }
+.pcard-teal .pcard-head { background: var(--color-teal); }
+.pcard-teal .pcard-ico { background: rgba(255, 255, 255, 0.35); }
+.pcard-teal .pcard-ico svg { stroke: var(--color-navy-deep); }
+.pcard-teal .pcard-head h3, .pcard-teal .pcard-head p { color: var(--color-navy-deep); }
+.pcard-photo { position: relative; aspect-ratio: 4 / 5; }
+.pcard-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pcard-chip {
+  position: absolute; left: 1rem; bottom: 1rem; z-index: 2;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.96); border-radius: 999px;
+  padding: 0.5rem 0.9rem 0.5rem 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--color-navy);
+  box-shadow: var(--shadow-sm);
+}
+.pcard-chip svg {
+  width: 22px; height: 22px; padding: 4px; border-radius: 50%;
+  background: var(--color-teal); fill: none; stroke: var(--color-navy-deep); stroke-width: 2.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.pcard-cuota {
+  position: absolute; left: 1rem; right: 1rem; bottom: 1rem; z-index: 2;
+  background: var(--color-navy-deep); border-radius: 14px; padding: 1rem 1.2rem;
+  box-shadow: var(--shadow-md);
+}
+.pcard-cuota span { display: block; color: var(--color-gray-dark); font-size: 0.78rem; }
+.pcard-cuota strong { display: block; color: #fff; font-family: var(--font-display); font-size: 1.4rem; margin: 0.15rem 0 0.7rem; }
+.pcard-cuota-slider { height: 5px; border-radius: 3px; background: #25405c; margin-bottom: 0.4rem; }
+.pcard-cuota-slider i {
+  display: block; height: 100%; width: var(--v); border-radius: 3px; position: relative;
+  background: var(--color-teal);
+}
+.pcard-cuota-slider i::after {
+  content: ""; position: absolute; right: -6px; top: 50%; translate: 0 -50%;
+  width: 12px; height: 12px; border-radius: 50%; background: var(--color-teal);
+  border: 2px solid var(--color-navy-deep);
+}
+.pcard-cuota-range { display: flex; justify-content: space-between; color: var(--color-gray-dark); font-size: 0.74rem; }
 
 /* ===== Calculadora (banda navy) ===== */
 .calc .eyebrow::before { background: var(--color-teal); }
@@ -615,8 +558,6 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
 
 /* ===== Responsive ===== */
 @media (max-width: 1024px) {
-  .chip-approved { left: 2%; }
-  .chip-growth { right: 2%; }
   .faq-grid { grid-template-columns: 1fr; }
   .faq-intro { position: static; }
 }
@@ -627,22 +568,15 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   .steps { grid-template-columns: 1fr 1fr; gap: 2rem 1.4rem; }
   .steps-line { display: none; }
   .product-inner { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: 1fr 1fr; gap: 0.5rem 0; }
-  .stat:nth-child(3) { border-left: none; }
-  .stat:nth-child(n+3) { border-top: 1px solid var(--color-line); padding-top: 1rem; }
   .vs-head, .vs-row { grid-template-columns: 1fr 1fr; }
   .vs-head span:first-child, .vs-row span:first-child { display: none; }
   .wsp-float { width: 50px; height: 50px; }
   .wsp-float svg { width: 27px; height: 27px; }
   .plan-select { grid-template-columns: 1fr; max-width: 400px; }
-  .moto-photo { height: 68vh; min-height: 440px; }
 }
 @media (max-width: 560px) {
   .steps { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-chip { padding: 0.55rem 0.8rem; }
-  .hero-chip strong { font-size: 0.8rem; }
-  .hero-chip small { font-size: 0.7rem; }
   .topbar { font-size: 0.74rem; }
   .topbar-extra { display: none; }
   .calc-row { flex-wrap: wrap; row-gap: 0.3rem; }
@@ -651,8 +585,6 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   .cuota-btn { min-width: 0; font-size: 0.85rem; padding: 0.65rem 0.4rem; }
   .plan-card { padding: 1.1rem 1.2rem; }
   .calc-result .btn-lg { padding: 0.9rem 1rem; font-size: 0.92rem; gap: 0.45rem; }
-  .moto-photo { height: 58vh; min-height: 380px; }
-  .moto-photo img { width: min(88vw, 640px); }
 }
 
 /* ===== Accesibilidad: menos movimiento ===== */
@@ -660,6 +592,4 @@ h1 strong, h2 strong { color: var(--color-teal-dark); font-weight: 700; }
   .intro-item { opacity: 1; transform: none; }
   .reveal { opacity: 1; transform: none; }
   .wsp-float::after { animation: none; }
-  .hero-chip { animation: none; }
-  .hero-scroll { animation: none; }
 }
