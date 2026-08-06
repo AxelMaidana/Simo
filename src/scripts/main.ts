@@ -206,40 +206,6 @@ if (marqueeTrack) {
   marqueeTrack.addEventListener('mouseleave', () => marqueeTween.play());
 }
 
-// ===== Pausar animaciones CSS de los chips cuando no se ven =====
-const motoPhoto = document.querySelector<HTMLElement>('.moto-photo');
-if (motoPhoto) {
-  const loopObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        motoPhoto.classList.toggle('anim-paused', !entry.isIntersecting);
-      });
-    },
-    { threshold: 0 }
-  );
-  loopObserver.observe(motoPhoto);
-}
-
-// ===== Palabra grande detrás de la moto: se desplaza con el scroll =====
-const motoWord = document.querySelector<HTMLElement>('.moto-word');
-const motoShowcase = document.querySelector('.moto-showcase');
-if (motoWord && motoShowcase && !reducedMotion) {
-  gsap.fromTo(
-    motoWord,
-    { yPercent: -30 },
-    {
-      yPercent: 10,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: motoShowcase,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: 0.5,
-      },
-    }
-  );
-}
-
 // ===== Aplica el número de WhatsApp a todos los links =====
 document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me/"]').forEach((a) => {
   const url = new URL(a.href);
