@@ -446,7 +446,6 @@ if (planSelect && cuotasControl && planAnticipoEl && cuotaMensualEl) {
     const totalAPagar = plan.cuotaMensual12 * 12;
     const cuotaMensual = totalAPagar / mesesSeleccionados;
     const cuotaSemanalVal = cuotaMensual / 4;
-    const anticipoTotal = plan.anticipoPago * 3;
     const semanas = mesesSeleccionados * 4;
 
     planAnticipoEl.textContent = pesos(plan.anticipoPago);
@@ -457,7 +456,7 @@ if (planSelect && cuotasControl && planAnticipoEl && cuotaMensualEl) {
     if (planCta) {
       const params = new URLSearchParams({
         plan: plan.nombre,
-        anticipo: String(anticipoTotal),
+        anticipo: String(plan.anticipoPago),
         meses: String(mesesSeleccionados),
         cuotaMensual: String(Math.round(cuotaMensual)),
         cuotaSemanal: String(Math.round(cuotaSemanalVal)),

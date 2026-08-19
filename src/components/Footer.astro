@@ -1,7 +1,10 @@
+---
+const home = Astro.url.pathname === '/' ? '' : '/';
+---
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <a href="#hero" class="logo">
+      <a href={`${home}#hero`} class="logo">
         <img src="/img/logo-simo-blanco.svg" alt="SIMO — Sistema Integral de Movilidad" class="logo-img" width="300" height="54" loading="lazy" />
       </a>
       <p>Sistema Integral de Movilidad. Leasing de motos como herramienta de trabajo, con evaluación simple y transparencia total. Presentes en toda la región del NEA (Chaco, Corrientes, Formosa y Misiones).</p>
@@ -12,18 +15,18 @@
     </div>
     <div class="footer-col">
       <h4>Navegación</h4>
-      <a href="#leasing">Qué es el leasing</a>
-      <a href="#calculadora">Simulador</a>
-      <a href="#como">Cómo funciona</a>
-      <a href="#testimonios">Historias</a>
-      <a href="#faq">Preguntas frecuentes</a>
+      <a href={`${home}#leasing`}>Qué es el leasing</a>
+      <a href={`${home}#calculadora`}>Simulador</a>
+      <a href={`${home}#como`}>Cómo funciona</a>
+      <a href={`${home}#testimonios`}>Historias</a>
+      <a href={`${home}#faq`}>Preguntas frecuentes</a>
     </div>
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="https://wa.me/000000000" target="_blank" rel="noopener">WhatsApp</a>
       <a href="#">Instagram</a>
       <a href="#">Facebook</a>
-      <a href="#contacto">Agencias</a>
+      <a href={`${home}#contacto`}>Agencias</a>
     </div>
     <div class="footer-col">
       <h4>Legales</h4>
