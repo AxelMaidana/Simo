@@ -5,7 +5,7 @@ import emailjs from '@emailjs/browser';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WSP = '5493624971816';
+const WSP = '5493624801950';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -252,7 +252,7 @@ function tweenNumber(el: HTMLElement, to: number, prefix = '') {
 
 const pintarSlider = (el: HTMLInputElement) => {
   const pct = ((Number(el.value) - Number(el.min)) / (Number(el.max) - Number(el.min))) * 100;
-  el.style.background = `linear-gradient(90deg, var(--color-teal) 0%, var(--color-teal) ${pct}%, #25405c ${pct}%)`;
+  el.style.background = `linear-gradient(90deg, var(--color-teal) 0%, var(--color-teal) ${pct}%, rgba(255, 255, 255, 0.14) ${pct}%)`;
 };
 
 const calcular = () => {
@@ -424,9 +424,9 @@ document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((item) => {
 
 // ===== Plan de pago (IKA y Corven Base / Full) =====
 type PlanKey = 'base' | 'full';
-const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPago: number; cuotaMensual12: number }> = {
-  base: { nombre: 'IKA y Corven Base', valorNominal: 1700000, anticipoPago: 190000, cuotaMensual12: 316000 },
-  full: { nombre: 'IKA y Corven Full', valorNominal: 2000000, anticipoPago: 290000, cuotaMensual12: 316000 },
+const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPago: number }> = {
+  base: { nombre: 'IKA y Corven Base', valorNominal: 1700000, anticipoPago: 190000 },
+  full: { nombre: 'IKA y Corven Full', valorNominal: 2000000, anticipoPago: 290000 },
 };
 
 const planSelect = document.getElementById('planSelect');
@@ -443,8 +443,8 @@ if (planSelect && cuotasControl && planAnticipoEl && cuotaMensualEl) {
 
   const calcularPlan = () => {
     const plan = PLANES[planActivo];
-    const totalAPagar = plan.cuotaMensual12 * 12;
-    const cuotaMensual = totalAPagar / mesesSeleccionados;
+    const saldoFinanciado = plan.valorNominal - plan.anticipoPago * 3;
+    const cuotaMensual = saldoFinanciado / mesesSeleccionados;
     const cuotaSemanalVal = cuotaMensual / 4;
     const semanas = mesesSeleccionados * 4;
 
