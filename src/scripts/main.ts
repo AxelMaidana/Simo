@@ -424,9 +424,9 @@ document.querySelectorAll<HTMLDetailsElement>('.faq-item').forEach((item) => {
 
 // ===== Plan de pago (IKA y Corven Base / Full) =====
 type PlanKey = 'base' | 'full';
-const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPago: number }> = {
-  base: { nombre: 'IKA y Corven Base', valorNominal: 1700000, anticipoPago: 190000 },
-  full: { nombre: 'IKA y Corven Full', valorNominal: 2000000, anticipoPago: 290000 },
+const PLANES: Record<PlanKey, { nombre: string; valorNominal: number; anticipoPago: number; totalCuotas: number }> = {
+  base: { nombre: 'IKA y Corven Base', valorNominal: 1700000, anticipoPago: 190000, totalCuotas: 316000 * 12 },
+  full: { nombre: 'IKA y Corven Full', valorNominal: 2000000, anticipoPago: 290000, totalCuotas: 316000 * 12 },
 };
 
 const planSelect = document.getElementById('planSelect');
@@ -443,8 +443,7 @@ if (planSelect && cuotasControl && planAnticipoEl && cuotaMensualEl) {
 
   const calcularPlan = () => {
     const plan = PLANES[planActivo];
-    const saldoFinanciado = plan.valorNominal - plan.anticipoPago * 3;
-    const cuotaMensual = saldoFinanciado / mesesSeleccionados;
+    const cuotaMensual = plan.totalCuotas / mesesSeleccionados;
     const cuotaSemanalVal = cuotaMensual / 4;
     const semanas = mesesSeleccionados * 4;
 
