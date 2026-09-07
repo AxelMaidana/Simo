@@ -79,6 +79,7 @@ const GOOGLE_FORM_ACTION =
           <input type="hidden" name="entry.1443379784" id="hiddenMeses" value="" />
           <input type="hidden" name="entry.1496890500" id="hiddenCuotaMensual" value="" />
           <input type="hidden" name="entry.1621411405" id="hiddenPlan" value="" />
+          <input type="hidden" name="entry.670293137" id="hiddenProducto" value="Sin especificar" />
 
           <button type="submit" class="btn btn-lg" id="leadFormBtn">Enviar solicitud
             <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
@@ -127,6 +128,7 @@ const GOOGLE_FORM_ACTION =
     const hiddenMeses = document.getElementById('hiddenMeses') as HTMLInputElement | null;
     const hiddenCuotaMensual = document.getElementById('hiddenCuotaMensual') as HTMLInputElement | null;
     const hiddenPlan = document.getElementById('hiddenPlan') as HTMLInputElement | null;
+    const hiddenProducto = document.getElementById('hiddenProducto') as HTMLInputElement | null;
 
     if (hiddenAnticipo) hiddenAnticipo.value = pesos(anticipo);
     if (hiddenMeses) hiddenMeses.value = meses;
@@ -134,6 +136,7 @@ const GOOGLE_FORM_ACTION =
       hiddenCuotaMensual.value = `${pesos(cuotaSemanal)} (equivale a ${pesos(cuotaMensual)} por mes)`;
     }
     if (hiddenPlan) hiddenPlan.value = plan;
+    if (hiddenProducto) hiddenProducto.value = plan;
   }
 
   const leadForm = document.getElementById('leadForm') as HTMLFormElement | null;
