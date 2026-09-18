@@ -5,7 +5,7 @@ import emailjs from '@emailjs/browser';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const WSP = '5493624801950';
+const WSP = '5493624080780';
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
