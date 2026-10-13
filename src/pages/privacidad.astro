@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TopBar from '../components/TopBar.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { WSP } from '../data/planes';
+
+// Datos legales de la empresa: los que se completen aparecen solos en el texto.
+const EMPRESA = {
+  razonSocial: 'ELANEL Servicios SRL',
+  cuit: '',
+  domicilio: '',
+  email: '',
+};
+const titular = [
+  EMPRESA.razonSocial && `marca de ${EMPRESA.razonSocial}`,
+  EMPRESA.cuit && `CUIT ${EMPRESA.cuit}`,
+  EMPRESA.domicilio && `con domicilio en ${EMPRESA.domicilio}`,
+].filter(Boolean).join(', ');
+const ACTUALIZADA = '8 de octubre de 2026';
+const wspVisible = `+${WSP.slice(0, 2)} ${WSP.slice(2, 3)} ${WSP.slice(3, 6)} ${WSP.slice(6)}`;
+---
+
+<Layout title="Política de privacidad — SIMO" description="Cómo SIMO recolecta, usa y protege tus datos personales.">
+  <TopBar />
+  <Nav />
+
+  <section class="section legal">
+    <p class="eyebrow">Legales</p>
+    <h1>Política de privacidad</h1>
+    <p class="legal-date">Última actualización: {ACTUALIZADA}</p>
+
+    <p>
+      En SIMO — Sistema Integral de Movilidad (en adelante, "SIMO"){titular ? `, ${titular},` : ''} cuidamos tus datos personales conforme a la
+      Ley N° 25.326 de Protección de los Datos Personales y su normativa complementaria. Esta política explica
+      qué datos recolectamos, para qué los usamos y cuáles son tus derechos.
+    </p>
+
+    <h2>1. Qué datos recolectamos</h2>
+    <p>Cuando completás la solicitud en este sitio nos das:</p>
+    <ul>
+      <li>Nombre, número de teléfono / WhatsApp, DNI, provincia y, si lo indicás, tu correo electrónico.</li>
+      <li>Tu actividad laboral y cómo percibís tus ingresos.</li>
+      <li>La moto y el plan que elegiste.</li>
+    </ul>
+    <p>
+      Si contratás un plan, la moto cuenta con un dispositivo GPS que registra su ubicación durante la vigencia
+      del contrato. Esos datos se usan para la seguridad y el recupero del vehículo y para coordinar el
+      mantenimiento programado.
+    </p>
+    <p>
+      Además, podemos registrar datos técnicos de navegación (como tipo de dispositivo, páginas visitadas u origen
+      de la visita) mediante cookies o herramientas de medición, de forma agregada y sin identificarte directamente.
+    </p>
+
+    <h2>2. Para qué los usamos</h2>
+    <ul>
+      <li>Evaluar tu solicitud de leasing y armar una propuesta de plan de pago.</li>
+      <li>Verificar tu identidad y tu situación crediticia y laboral, pudiendo consultar bases de datos públicas o
+        privadas de información crediticia, en los términos del artículo 26 de la Ley N° 25.326.</li>
+      <li>Contactarte por WhatsApp, teléfono o correo electrónico en relación con tu solicitud.</li>
+      <li>Si contratás: gestionar el seguro, el GPS y el mantenimiento programado de la moto.</li>
+      <li>Mejorar nuestro sitio y nuestros servicios.</li>
+    </ul>
+    <p>No vendemos ni alquilamos tus datos personales.</p>
+
+    <h2>3. Consentimiento</h2>
+    <p>
+      Al enviar la solicitud prestás tu consentimiento libre, expreso e informado para que tratemos tus datos con
+      las finalidades descriptas. Brindar los datos es voluntario, pero sin ellos no podemos evaluar tu solicitud.
+    </p>
+
+    <h2>4. Con quién los compartimos</h2>
+    <p>Solo compartimos tus datos con:</p>
+    <ul>
+      <li>Proveedores que nos prestan servicios tecnológicos (por ejemplo, almacenamiento de formularios y
+        mensajería), que los tratan por cuenta nuestra y con obligación de confidencialidad.</li>
+      <li>Entidades de información crediticia, para la evaluación de tu solicitud.</li>
+      <li>La compañía aseguradora y los prestadores de GPS y de mantenimiento, si contratás un plan.</li>
+      <li>Autoridades públicas, cuando la ley lo exija.</li>
+    </ul>
+    <p>
+      Algunos de estos proveedores pueden almacenar la información en servidores fuera de la Argentina, con
+      niveles de protección adecuados.
+    </p>
+
+    <h2>5. Cuánto tiempo los guardamos</h2>
+    <p>
+      Conservamos tus datos mientras sean necesarios para evaluar tu solicitud y, si contratás, durante la vigencia
+      del plan y los plazos legales posteriores. Si tu solicitud no avanza, podés pedirnos que los eliminemos.
+    </p>
+
+    <h2>6. Seguridad</h2>
+    <p>
+      Aplicamos medidas técnicas y organizativas razonables para proteger tus datos contra accesos no autorizados,
+      pérdida o alteración, y limitamos el acceso a las personas que lo necesitan para gestionar tu solicitud.
+    </p>
+
+    <h2>7. Tus derechos</h2>
+    <p>
+      Podés solicitar el acceso, la rectificación, la actualización o la supresión de tus datos personales, y
+      retirar tu consentimiento en cualquier momento, escribiéndonos por WhatsApp
+      al {wspVisible}{EMPRESA.email ? ` o por email a ${EMPRESA.email}` : ''}. Te responderemos dentro de los plazos establecidos por la Ley N° 25.326.
+    </p>
+    <p class="legal-note">
+      El titular de los datos personales tiene la facultad de ejercer el derecho de acceso a los mismos en forma
+      gratuita a intervalos no inferiores a seis meses, salvo que se acredite un interés legítimo al efecto
+      conforme lo establecido en el artículo 14, inciso 3 de la Ley N° 25.326.
+    </p>
+    <p class="legal-note">
+      La AGENCIA DE ACCESO A LA INFORMACIÓN PÚBLICA, en su carácter de Órgano de Control de la Ley N° 25.326,
+      tiene la atribución de atender las denuncias y reclamos que interpongan quienes resulten afectados en sus
+      derechos por incumplimiento de las normas vigentes en materia de protección de datos personales.
+    </p>
+
+    <h2>8. Cambios en esta política</h2>
+    <p>
+      Podemos actualizar esta política. Publicaremos la versión vigente en esta página, indicando la fecha de la
+      última actualización.
+    </p>
+
+    <p class="legal-back"><a href="/#califica" class="btn">Volver a mi solicitud</a></p>
+  </section>
+
+  <Footer />
+</Layout>

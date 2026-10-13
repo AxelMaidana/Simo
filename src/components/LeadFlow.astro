@@ -1,0 +1,123 @@
+---
+// Captura de leads en 4 pasos: marca → versión → perfil → WhatsApp.
+// Los primeros 3 son solo toques; lo único que se escribe va al final.
+import {
+  MARCAS, VERSIONES, FOTOS, MARCA_KEYS, VERSION_KEYS, CUOTA_SEMANAL, SEMANAS, pesos,
+  PROVINCIAS_NEA, PROVINCIAS_RESTO,
+} from '../data/planes';
+
+const RUBROS = [
+  { value: 'Delivery y reparto', label: 'Delivery / reparto' },
+  { value: 'Técnico a domicilio', label: 'Técnico' },
+  { value: 'Comerciante', label: 'Comercio' },
+  { value: 'Emprendedor', label: 'Emprendedor' },
+  { value: 'Profesional independiente', label: 'Independiente' },
+  { value: 'Empleado público o privado', label: 'Empleado' },
+  { value: 'Otro', label: 'Otro' },
+];
+
+const COBROS = ['Con recibo de sueldo', 'Monotributo', 'En efectivo o por apps', 'Varía, no es fijo'];
+
+---
+
+<div class="lf" id="califica" data-leadflow>
+  <div class="lf-head" data-lf-head>
+    <button type="button" class="lf-back" data-lf-back hidden aria-label="Volver al paso anterior">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="lf-label" data-lf-label>Paso 1 de 4</span>
+    <div class="lf-progress" aria-hidden="true"><i data-lf-bar></i></div>
+  </div>
+
+  <form class="lf-form" data-lf-form novalidate>
+    <fieldset class="lf-panel" data-step="1">
+      <legend class="lf-q">¿Qué marca preferís?</legend>
+      <div class="lf-motos">
+        {MARCA_KEYS.map((m) => (
+          <label class="lf-moto">
+            <input type="radio" name="marca" value={m} class="sr-only" />
+            <span class="lf-moto-img"><img src={FOTOS[m].base} alt="" width="320" height="214" loading="eager" /></span>
+            <span class="lf-moto-brand">{MARCAS[m].nombre}</span>
+            <span class="lf-moto-spec">{MARCAS[m].modelo} · Base o Full</span>
+            <span class="lf-moto-price"><small class="lf-from">desde</small>{pesos(CUOTA_SEMANAL)}<small>/semana</small></span>
+          </label>
+        ))}
+      </div>
+      <p class="lf-foot">{SEMANAS} cuotas semanales fijas · Incluye seguro, GPS y mantenimiento programado</p>
+    </fieldset>
+
+    <fieldset class="lf-panel" data-step="2" hidden>
+      <legend class="lf-q">¿Qué versión de la <span data-lf-marca>moto</span>?</legend>
+      <div class="lf-motos">
+        {VERSION_KEYS.map((v) => (
+          <label class="lf-moto">
+            <input type="radio" name="version" value={v} class="sr-only" />
+            <span class="lf-moto-img"><img data-lf-img={v} src={FOTOS.ika[v]} alt="" width="320" height="214" loading="lazy" /></span>
+            <span class="lf-moto-name">Versión <strong>{VERSIONES[v].corto}</strong></span>
+            <span class="lf-moto-spec">{VERSIONES[v].detalle}</span>
+            <span class="lf-moto-price">{pesos(CUOTA_SEMANAL)}<small>/semana</small></span>
+            <span class="lf-moto-ant">Anticipo: 3 × {pesos(VERSIONES[v].anticipoPago)}</span>
+          </label>
+        ))}
+      </div>
+      <p class="lf-foot">Misma cuota semanal: la diferencia está en el anticipo.</p>
+    </fieldset>
+
+    <fieldset class="lf-panel" data-step="3" hidden>
+      <legend class="lf-q">¿A qué te dedicás?</legend>
+      <div class="lf-chips">
+        {RUBROS.map((r) => (
+          <label class="lf-chip"><input type="radio" name="rubro" value={r.value} class="sr-only" /><span>{r.label}</span></label>
+        ))}
+      </div>
+      <p class="lf-q lf-q-2" id="lfCobroQ">¿Cómo cobrás hoy?</p>
+      <div class="lf-chips" role="radiogroup" aria-labelledby="lfCobroQ">
+        {COBROS.map((c) => (
+          <label class="lf-chip"><input type="radio" name="cobro" value={c} class="sr-only" /><span>{c}</span></label>
+        ))}
+      </div>
+      <p class="lf-foot">No necesitás perfil bancario perfecto.</p>
+    </fieldset>
+
+    <fieldset class="lf-panel" data-step="4" hidden>
+      <legend class="lf-q">¿A dónde te escribimos?</legend>
+      <p class="lf-pick" data-lf-pick></p>
+      <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="given-name" required />
+      <input type="tel" name="tel" placeholder="Tu WhatsApp (ej. 362 4123456)" autocomplete="tel" inputmode="tel" required />
+      <input type="email" name="email" placeholder="Tu email (opcional)" autocomplete="email" inputmode="email" />
+      <input type="text" name="dni" placeholder="Tu DNI (sin puntos)" inputmode="numeric" autocomplete="off" maxlength="10" required />
+      <select name="provincia" required aria-label="Tu provincia">
+        <option value="" disabled selected>Tu provincia</option>
+        <optgroup label="NEA">
+          {PROVINCIAS_NEA.map((p) => <option value={p}>{p}</option>)}
+        </optgroup>
+        <optgroup label="Resto del país">
+          {PROVINCIAS_RESTO.map((p) => <option value={p}>{p}</option>)}
+        </optgroup>
+      </select>
+      <p class="lf-error" data-lf-error role="alert" hidden></p>
+      <button type="submit" class="btn btn-lg" data-lf-submit>Ver si califico
+        <svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.06 11.57h13.76M13.5 5l6.5 6.5-6.5 6.5"/></svg>
+      </button>
+      <p class="lf-hint">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Usamos tu DNI solo para evaluar tu solicitud. Sin compromiso.
+      </p>
+      <p class="lf-legal">Te contactamos por WhatsApp o por correo electrónico.</p>
+      <p class="lf-legal">Al enviar aceptás nuestra <a href="/privacidad" target="_blank" rel="noopener">Política de privacidad</a>.</p>
+    </fieldset>
+
+    <div class="lf-panel lf-done" data-step="5" hidden tabindex="-1">
+      <span class="lf-done-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <p class="lf-q" data-lf-done-title>¡Listo!</p>
+      <p class="lf-done-text" data-lf-done-text></p>
+      <p class="lf-hint">¿Tenés alguna duda? Escribinos y te contamos más.</p>
+      <a class="btn btn-lg btn-wsp" data-lf-wsp href="#" target="_blank" rel="noopener">
+        <svg class="wsp-ico" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.7 1.4 5.8 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3zm0 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.3.9.9-4.2-.3-.4c-1-1.6-1.5-3.4-1.5-5.3C5.4 9.6 10 5 16 5s10.6 4.6 10.6 10.6S22 24.8 16 24.8zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-1.8-.9-3-1.6-4.2-3.6-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.2 3.4 5.4 4.7 2 .9 2.8.9 3.8.8.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
+        Más información por WhatsApp
+      </a>
+    </div>
+  </form>
+</div>
+
+<script src="../scripts/leadflow.ts"></script>

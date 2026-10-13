@@ -1,0 +1,44 @@
+---
+import { MARCAS, VERSIONES, FOTOS, MARCA_KEYS, VERSION_KEYS, CUOTA_SEMANAL, SEMANAS, pesos } from '../data/planes';
+---
+<section class="section motos" id="motos">
+  <div class="section-head reveal">
+    <p class="eyebrow">Las motos</p>
+    <h2>Elegí tu marca, <strong>elegí tu versión</strong></h2>
+    <p class="section-sub">Misma cuota semanal en las dos marcas. La versión Full suma llantas de aleación y freno a disco.</p>
+    <div class="motos-incluye">
+      <span>Todas incluyen</span>
+      <ul class="incluye">
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>Seguro</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>GPS</li>
+        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"/></svg>Mantenimiento programado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="motos-grid">
+    {MARCA_KEYS.map((m, i) => (
+      <article class="marca reveal" style={`--d:${i}`}>
+        <header class="marca-head">
+          <h3>{MARCAS[m].nombre}</h3>
+          <span>{MARCAS[m].modelo}</span>
+        </header>
+        <div class="marca-versiones">
+          {VERSION_KEYS.map((v) => (
+            <div class="version">
+              <div class="version-img">
+                <img src={FOTOS[m][v]} alt={`${MARCAS[m].nombre} ${MARCAS[m].modelo} ${VERSIONES[v].corto}`} width="320" height="214" loading="lazy" />
+              </div>
+              <p class="version-name">Versión <strong>{VERSIONES[v].corto}</strong></p>
+              <p class="version-spec">{VERSIONES[v].detalle}</p>
+              <p class="version-price">{pesos(CUOTA_SEMANAL)}<small>/semana</small></p>
+              <p class="version-ant">Anticipo: 3 × {pesos(VERSIONES[v].anticipoPago)}</p>
+              <a href="#califica" class="btn btn-small" data-pick-marca={m} data-pick-version={v}>La quiero</a>
+            </div>
+          ))}
+        </div>
+      </article>
+    ))}
+  </div>
+  <p class="motos-note">{SEMANAS} cuotas semanales fijas ({SEMANAS / 4} meses). Al completar el plan, la moto es tuya.</p>
+</section>

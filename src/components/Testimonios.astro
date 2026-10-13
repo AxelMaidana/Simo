@@ -1,3 +1,45 @@
+---
+// Solo testimonios reales de clientes, con su autorización para publicarlos.
+// Para sumar uno, agregá un objeto a la lista: la grilla se acomoda sola.
+const HISTORIAS = [
+  {
+    nombre: 'Martín',
+    oficio: 'Técnico de aires',
+    lugar: 'Resistencia, Chaco',
+    texto: 'Antes hacía 4 visitas por día. Con la moto llego al doble y gano más del doble. La cuota se paga sola.',
+  },
+  {
+    nombre: 'Lucía',
+    oficio: 'Repartidora',
+    lugar: 'Corrientes capital',
+    texto: 'Recuperé 2 horas por día que perdía en el colectivo. Ese tiempo ahora es plata y es para mi familia.',
+  },
+  {
+    nombre: 'Diego',
+    oficio: 'Emprendedor',
+    lugar: 'Posadas, Misiones',
+    texto: 'Pensé que no iba a calificar por no tener recibo de sueldo. Me hicieron una evaluación simple y al toque tenía mi plan.',
+  },
+];
+
+// EJEMPLOS para ver el diseño con 5 historias: solo se muestran en desarrollo
+// (astro dev / túnel) y nunca en el build de producción. Reemplazar por reales.
+const EJEMPLOS = [
+  {
+    nombre: 'Ramón',
+    oficio: 'Albañil',
+    lugar: 'Pres. Roque Sáenz Peña, Chaco',
+    texto: 'Antes iba a las obras en bici, cargando las herramientas como podía. Ahora llevo todo en la moto y agarro trabajos en las chacras también.',
+  },
+  {
+    nombre: 'Carina',
+    oficio: 'Vendedora de cosmética',
+    lugar: 'Villa Ángela, Chaco',
+    texto: 'Visito clientas en varios barrios por día. Con la moto armé mi recorrido y llego a todas sin depender de nadie.',
+  },
+];
+const lista = import.meta.env.DEV ? [...HISTORIAS, ...EJEMPLOS] : HISTORIAS;
+---
 <section class="section testimonios" id="testimonios">
   <div class="section-head reveal">
     <p class="eyebrow">Historias reales</p>
@@ -5,29 +47,15 @@
     <p class="section-sub">Trabajadores independientes que cambiaron el colectivo por su propia herramienta de trabajo.</p>
   </div>
   <div class="testi-grid">
-    <figure class="testi reveal" style="--d:0">
-      <div class="testi-stars" aria-label="5 de 5 estrellas">★★★★★</div>
-      <blockquote>"Antes hacía 4 visitas por día. Con la moto llego al doble y gano más del doble. La cuota se paga sola."</blockquote>
-      <figcaption>
-        <span class="testi-avatar" aria-hidden="true">M</span>
-        <span><strong>Martín</strong><small>Técnico de aires · Resistencia, Chaco</small></span>
-      </figcaption>
-    </figure>
-    <figure class="testi reveal" style="--d:1">
-      <div class="testi-stars" aria-label="5 de 5 estrellas">★★★★★</div>
-      <blockquote>"Recuperé 2 horas por día que perdía en el colectivo. Ese tiempo ahora es plata y es para mi familia."</blockquote>
-      <figcaption>
-        <span class="testi-avatar" aria-hidden="true">L</span>
-        <span><strong>Lucía</strong><small>Repartidora · Corrientes capital</small></span>
-      </figcaption>
-    </figure>
-    <figure class="testi reveal" style="--d:2">
-      <div class="testi-stars" aria-label="5 de 5 estrellas">★★★★★</div>
-      <blockquote>"Pensé que no iba a calificar por no tener recibo de sueldo. Me hicieron una evaluación simple y al toque tenía mi plan."</blockquote>
-      <figcaption>
-        <span class="testi-avatar" aria-hidden="true">D</span>
-        <span><strong>Diego</strong><small>Emprendedor · Posadas, Misiones</small></span>
-      </figcaption>
-    </figure>
+    {lista.map((h, i) => (
+      <figure class="testi reveal" style={`--d:${i % 3}`}>
+        <div class="testi-stars" aria-label="5 de 5 estrellas">★★★★★</div>
+        <blockquote>"{h.texto}"</blockquote>
+        <figcaption>
+          <span class="testi-avatar" aria-hidden="true">{h.nombre[0]}</span>
+          <span><strong>{h.nombre}</strong><small>{h.oficio} · {h.lugar}</small></span>
+        </figcaption>
+      </figure>
+    ))}
   </div>
 </section>

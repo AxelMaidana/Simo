@@ -19,6 +19,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'FinancialService',
   name: 'SIMO — Sistema Integral de Movilidad',
+  legalName: 'ELANEL Servicios SRL',
   description,
   url: 'https://simoargentina.com',
   logo: new URL('/img/logo-simo-navy.svg', Astro.site).toString(),
@@ -64,7 +65,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet" />
-    <link rel="preload" as="image" href="/img/gilera.webp" />
+    <link rel="preload" as="image" href="/img/mama-hijo.webp" />
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
